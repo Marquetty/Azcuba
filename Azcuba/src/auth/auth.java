@@ -6,16 +6,10 @@
 package auth;
 
 /**
- *
  * @author Lenovo
+ *
+ *  Comunicación con la BD
  */
-public class Azcuba {
+public class auth {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        System.out.println("hola mundo"
-                + "asdasdasdasd");
-    }
 }
