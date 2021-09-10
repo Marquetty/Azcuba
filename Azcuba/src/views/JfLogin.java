@@ -18,11 +18,9 @@ import java.sql.Statement;
 public class JfLogin extends javax.swing.JFrame {
 
     // Instanci clase AUTH
-    private Auth SQL = new Auth();
+    private final Auth SQL = new Auth();
     // Llamas al método que tiene la clase y te devuelve una conexión
-    private Connection conn = SQL.conectarMySQL();
-    // Query que usarás para hacer lo que necesites
-    private String query = "SELECT * FROM usuario";
+    private final Connection conn = SQL.conectarMySQL();
 
     /**
      * Creates new form JfLogin
@@ -38,6 +36,8 @@ public class JfLogin extends javax.swing.JFrame {
 
         try {
             stmt = conn.createStatement();
+            // Query que usarás para hacer lo que necesites
+            String query = "SELECT * FROM usuario";
             rs = stmt.executeQuery(query);
             while (rs.next()) {
                 System.out.println(rs.getString(1));    //1r Column ID
@@ -53,7 +53,7 @@ public class JfLogin extends javax.swing.JFrame {
             if (rs != null) {
                 try {
                     rs.close();
-                } catch (SQLException sqlEx) {
+                } catch (SQLException ignored) {
                 }
 
             }
