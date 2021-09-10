@@ -61,7 +61,7 @@ public class JfLogin extends javax.swing.JFrame {
             if (stmt != null) {
                 try {
                     stmt.close();
-                } catch (SQLException sqlEx) {
+                } catch (SQLException ignored) {
 
                 }
 
