@@ -42,6 +42,11 @@ public class JfLogin extends javax.swing.JFrame {
         jLabelContrasenna.setText("Contraseña");
 
         jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
 
@@ -87,6 +92,10 @@ public class JfLogin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+      
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     /**
      * @param args the command line arguments
