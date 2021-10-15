@@ -38,18 +38,18 @@ public class jfPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setText("File");
+        jMenu1.setText("Listados");
 
-        jMenuItem1.setText("Consumo");
+        jMenuItem1.setText("Listado de Consumo");
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("Transporte");
+        jMenuItem2.setText("Listado de Transprote");
         jMenu1.add(jMenuItem2);
 
-        jMenuItem3.setText("Producción");
+        jMenuItem3.setText("Listado de Produccion");
         jMenu1.add(jMenuItem3);
 
-        jMenuItem4.setText("Personal");
+        jMenuItem4.setText("Listado de Personal");
         jMenu1.add(jMenuItem4);
 
         jMenuBar1.add(jMenu1);

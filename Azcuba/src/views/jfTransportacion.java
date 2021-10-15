@@ -5,17 +5,23 @@
  */
 package views;
 
+import dao_conexion.dao_transportacion;
+import models.transportacion;
+
 /**
  *
  * @author Lenovo
  */
 public class jfTransportacion extends javax.swing.JFrame {
 
+    dao_conexion.dao_transportacion dt = new dao_transportacion();
+
     /**
      * Creates new form jfTrasnportacion
      */
     public jfTransportacion() {
         initComponents();
+
     }
 
     /**
@@ -45,6 +51,11 @@ public class jfTransportacion extends javax.swing.JFrame {
         jLabel3.setText("Marca");
 
         jButton1.setText("Insertar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
 
@@ -97,6 +108,15 @@ public class jfTransportacion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String tipo_vehiculo = jComboBox_tipoVehiculo.getSelectedItem().toString();
+        String modelo = jTextField_modelo.getText();
+        String marca = jTextField_marca.getText();
+        transportacion t = new transportacion(MOVE_CURSOR, tipo_vehiculo, modelo, marca);
+        dt.insertar(t);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

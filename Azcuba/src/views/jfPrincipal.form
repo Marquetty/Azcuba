@@ -6,27 +6,27 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="File"/>
+            <Property name="text" type="java.lang.String" value="Listados"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Consumo"/>
+                <Property name="text" type="java.lang.String" value="Listado de Consumo"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Transporte"/>
+                <Property name="text" type="java.lang.String" value="Listado de Transprote"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Producci&#xf3;n"/>
+                <Property name="text" type="java.lang.String" value="Listado de Produccion"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Personal"/>
+                <Property name="text" type="java.lang.String" value="Listado de Personal"/>
               </Properties>
             </MenuItem>
           </SubComponents>
