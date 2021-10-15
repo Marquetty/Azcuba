@@ -51,7 +51,7 @@ public class Auth {
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
             if (conn != null) {
-                System.out.println("Conectado BD -> AZCUBA");
+                System.out.println("Conectado BD --> AZCUBA");
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

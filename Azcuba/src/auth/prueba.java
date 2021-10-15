@@ -30,7 +30,7 @@ public class prueba {
         //  st.eliminar(t);
         dp.eliminar(p);
         
-       // dc.insertar(c);
+        dc.insertar(c);
         dc.actualizar(c);
     }
 }
