@@ -44,6 +44,8 @@ public class JfLogin extends javax.swing.JFrame {
                 System.out.println(rs.getString(2));    //2da Column USER
                 System.out.println(rs.getString(3));    //3ra Column ROL
             }
+            
+            
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
@@ -145,7 +147,8 @@ public class JfLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
-
+            new jfPrincipal().setVisible(true); 
+            dispose();
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     /**
