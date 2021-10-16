@@ -364,4 +364,16 @@ public class jfListadoConsumo extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_indicePetroleo;
     private javax.swing.JTextField jTextField_recobrado;
     // End of variables declaration//GEN-END:variables
+
+    public void limpiar() {
+        jTextField_consumoAceite.setText("");
+        jTextField_consumoBiomasa.setText("");
+        jTextField_consumoLodo.setText("");
+        jTextField_consumoMarabu.setText("");
+        jTextField_consumoPetroleo.setText("");
+        jTextField_indiceDia.setText("");
+        jTextField_indicePetroleo.setText("");
+        jTextField_recobrado.setText("");
+    }
+    
 }
