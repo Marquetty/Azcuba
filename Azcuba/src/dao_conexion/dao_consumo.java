@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import models.consumo;
 import models.personal;
 
@@ -19,7 +21,9 @@ import models.personal;
  * @author Lenovo
  */
 public class dao_consumo {
-       private final Auth SQL = new Auth();
+
+    DefaultTableModel modeloTabla = null;
+    private final Auth SQL = new Auth();
     private final Connection conn = SQL.conectarMySQL();
 
     public void insertar(consumo c) {
@@ -77,7 +81,7 @@ public class dao_consumo {
             // Query que usarás para hacer lo que necesites
             String query = "UPDATE  consumo  set consumo_lodo=?,consumo_petroleo=?,consumo_biomasa=?,consumo_marabu=?"
                     + ",recobrado=?,indice_dia=?,indice_petroleo=?,consumo_fecha=? where id_consumo=?";
-             PreparedStatement ps = conn.prepareStatement(query);
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, c.getConsumo_lodo());
             ps.setInt(2, c.getConsumo_petroleo());
             ps.setInt(3, c.getBiomasa());
@@ -153,4 +157,48 @@ public class dao_consumo {
         }
 
     }
+
+    public void llenarTabla(JTable table) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String[] columna = {"No", "nombre", "Comite Primario"};
+        
+
+        try {
+            int contM = 1;
+            Object[] row = new Object[6];
+            modeloTabla = new DefaultTableModel(null, columna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false};
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            };
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT\n"
+                    + "comite_base.cb_id,\n"
+                    + "comite_base.cb_nombre,\n"
+                    + "comite_base.cb_cp_id,\n"
+                    + "comite_primario.cp_id,\n"
+                    + "comite_primario.cp_nombre\n"
+                    + "FROM\n"
+                    + "comite_base\n"
+                    + "INNER JOIN comite_primario ON comite_base.cb_cp_id = comite_primario.cp_id"
+            );
+            while (rs.next()) {
+                row[0] = contM++;
+                row[1] = rs.getString("cb_nombre");
+                row[2] = rs.getString("comite_primario.cp_nombre");
+
+                modeloTabla.addRow(row);
+
+            }
+            table.setModel(modeloTabla);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
 }
