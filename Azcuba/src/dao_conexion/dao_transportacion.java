@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import models.transportacion;
 
 /**
@@ -21,6 +23,7 @@ public class dao_transportacion {
 
     private final Auth SQL = new Auth();
     private final Connection conn = SQL.conectarMySQL();
+    DefaultTableModel modeloTabla = null;
 
     public void insertar(transportacion t) {
         Statement stmt = null;
@@ -136,6 +139,47 @@ public class dao_transportacion {
                 }
 
             }
+        }
+    }
+
+    public void llenarTabla(JTable table) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String[] columna = {"No", "Tipo de Vehiculo", "Modelo", "Marca"};
+
+        try {
+            int contM = 1;
+            Object[] row = new Object[8];
+            modeloTabla = new DefaultTableModel(null, columna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false};
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            };
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT\n"
+                    + "transportacion.id_vehiculo,\n"
+                    + "transportacion.tipo_vehiculo,\n"
+                    + "transportacion.modelo,\n"
+                    + "transportacion.marca\n"
+                    + "FROM\n"
+                    + "transportacion"
+            );
+            while (rs.next()) {
+                row[0] = contM++;
+                row[1] = rs.getString("transportacion.tipo_vehiculo");
+                row[2] = rs.getString("transportacion.modelo");
+                row[3] = rs.getString("transportacion.marca");
+
+                modeloTabla.addRow(row);
+
+            }
+            table.setModel(modeloTabla);
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 }

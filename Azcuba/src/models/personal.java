@@ -10,22 +10,19 @@ package models;
  * @author Lenovo
  */
 public class personal {
+
     private int id;
     private String ci;
+    private String nombre;
+    private String apellidos;
     private String ocupacion;
-    private String cotrata; 
+    private String contrata;
     private int salario;
-    private String tipo_contrata;
-    private int salario_total;
+    private int salario_contrata;
+    private int tiempo_contrata;
 
-    public personal(int id,String ci, String ocupacion, String cotrata, int salario, String tipo_contrata, int salario_total) {
-        this.id=id;
-        this.ci = ci;
-        this.ocupacion = ocupacion;
-        this.cotrata = cotrata;
-        this.salario = salario;
-        this.tipo_contrata = tipo_contrata;
-        this.salario_total = salario_total;
+    public personal(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -44,6 +41,22 @@ public class personal {
         this.ci = ci;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
     public String getOcupacion() {
         return ocupacion;
     }
@@ -52,12 +65,12 @@ public class personal {
         this.ocupacion = ocupacion;
     }
 
-    public String getCotrata() {
-        return cotrata;
+    public String getContrata() {
+        return contrata;
     }
 
-    public void setCotrata(String cotrata) {
-        this.cotrata = cotrata;
+    public void setContrata(String contrata) {
+        this.contrata = contrata;
     }
 
     public int getSalario() {
@@ -68,21 +81,32 @@ public class personal {
         this.salario = salario;
     }
 
-    public String getTipo_contrata() {
-        return tipo_contrata;
+    public int getSalario_contrata() {
+        return salario_contrata;
     }
 
-    public void setTipo_contrata(String tipo_contrata) {
-        this.tipo_contrata = tipo_contrata;
+    public void setSalario_contrata(int salario_contrata) {
+        this.salario_contrata = salario_contrata;
     }
 
-    public int getSalario_total() {
-        return salario_total;
+    public int getTiempo_contrata() {
+        return tiempo_contrata;
     }
 
-    public void setSalario_total(int salario_total) {
-        this.salario_total = salario_total;
+    public void setTiempo_contrata(int tiempo_contrata) {
+        this.tiempo_contrata = tiempo_contrata;
     }
-    
-    
+
+    public personal(int id, String ci, String nombre, String apellidos, String ocupacion, String contrata, int salario, int salario_contrata, int tiempo_contrata) {
+        this.id = id;
+        this.ci = ci;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.ocupacion = ocupacion;
+        this.contrata = contrata;
+        this.salario = salario;
+        this.salario_contrata = salario_contrata;
+        this.tiempo_contrata = tiempo_contrata;
+    }
+
 }

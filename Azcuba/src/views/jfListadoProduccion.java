@@ -5,17 +5,36 @@
  */
 package views;
 
+import auth.Auth;
+import dao_conexion.dao_producion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import models.consumo;
+import models.producion;
+
 /**
  *
  * @author Lenovo
  */
 public class jfListadoProduccion extends javax.swing.JFrame {
 
+    Statement stmt = null;
+    ResultSet rs = null;
+    private final Auth SQL = new Auth();
+    private final Connection conn = SQL.conectarMySQL();
+
+    dao_conexion.dao_producion pro = new dao_producion();
+
     /**
      * Creates new form jfListadoProduccion
      */
     public jfListadoProduccion() {
         initComponents();
+        pro.llenarTabla(jTable1);
     }
 
     /**
@@ -28,30 +47,32 @@ public class jfListadoProduccion extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField_azucarTotal = new javax.swing.JTextField();
         jLabel_normaProduccion = new javax.swing.JLabel();
-        jTextField_mielProducida = new javax.swing.JTextField();
         jLabel_refino = new javax.swing.JLabel();
-        jTextField_insumoAjeno = new javax.swing.JTextField();
         jLabel_azucarTotal = new javax.swing.JLabel();
-        jTextField_refinoProcesar = new javax.swing.JTextField();
         jLabel_mielProducioda = new javax.swing.JLabel();
         jLabel_insumo_ageno = new javax.swing.JLabel();
         jLabel_refinoProcesar = new javax.swing.JLabel();
-        jTextField_sacos = new javax.swing.JTextField();
-        jTextField_azucarPizarra = new javax.swing.JTextField();
-        jTextField_normaProduccion = new javax.swing.JTextField();
         jLabel_sacos = new javax.swing.JLabel();
-        jTextField_normaRefino = new javax.swing.JTextField();
         jLabel_azucarPizarra = new javax.swing.JLabel();
+        jSpinnerSacos = new javax.swing.JSpinner();
+        jSpinnerAzucarPizarra = new javax.swing.JSpinner();
+        jSpinnerNorma = new javax.swing.JSpinner();
+        jSpinnerRefino = new javax.swing.JSpinner();
+        jSpinnerMielProducida = new javax.swing.JSpinner();
+        jSpinnerInsumoAjeno = new javax.swing.JSpinner();
+        jSpinnerRefinoProcesar = new javax.swing.JSpinner();
+        jSpinnerAzucarTotal = new javax.swing.JSpinner();
         jPanel2 = new javax.swing.JPanel();
         jButton_insertar = new javax.swing.JButton();
         jButton_eliminar = new javax.swing.JButton();
         jButton_cancelar = new javax.swing.JButton();
         jButton_actualizar = new javax.swing.JButton();
+        jLabel_id = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listado de Producción");
@@ -61,22 +82,14 @@ public class jfListadoProduccion extends javax.swing.JFrame {
         jPanel1.setToolTipText("");
         jPanel1.setFocusCycleRoot(true);
 
-        jTextField_azucarTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
         jLabel_normaProduccion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel_normaProduccion.setText("Norma de produccion");
-
-        jTextField_mielProducida.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel_refino.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel_refino.setText("TM Refino");
 
-        jTextField_insumoAjeno.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
         jLabel_azucarTotal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel_azucarTotal.setText("Azúcar total");
-
-        jTextField_refinoProcesar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel_mielProducioda.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel_mielProducioda.setText("Miel Producida");
@@ -87,17 +100,8 @@ public class jfListadoProduccion extends javax.swing.JFrame {
         jLabel_refinoProcesar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel_refinoProcesar.setText("Refino Procesar");
 
-        jTextField_sacos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField_azucarPizarra.setText(" ");
-        jTextField_azucarPizarra.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField_normaProduccion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
         jLabel_sacos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel_sacos.setText("Sacos");
-
-        jTextField_normaRefino.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel_azucarPizarra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel_azucarPizarra.setText("TM de Azúcar Pizarra");
@@ -113,70 +117,87 @@ public class jfListadoProduccion extends javax.swing.JFrame {
                     .addComponent(jLabel_normaProduccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel_sacos)
                     .addComponent(jLabel_azucarPizarra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(44, 44, 44)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jTextField_normaRefino)
-                    .addComponent(jTextField_normaProduccion)
-                    .addComponent(jTextField_azucarPizarra, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                    .addComponent(jTextField_sacos, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(74, 74, 74)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSpinnerNorma, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                    .addComponent(jSpinnerAzucarPizarra, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSpinnerSacos, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSpinnerRefino))
+                .addGap(83, 83, 83)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel_mielProducioda)
                         .addComponent(jLabel_insumo_ageno))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_azucarTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_refinoProcesar))))
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField_azucarTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                    .addComponent(jTextField_refinoProcesar)
-                    .addComponent(jTextField_mielProducida, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                    .addComponent(jTextField_insumoAjeno))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel_refinoProcesar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel_azucarTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSpinnerAzucarTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                    .addComponent(jSpinnerRefinoProcesar)
+                    .addComponent(jSpinnerInsumoAjeno)
+                    .addComponent(jSpinnerMielProducida))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_sacos)
-                    .addComponent(jTextField_sacos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_mielProducioda)
-                    .addComponent(jTextField_mielProducida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                    .addComponent(jSpinnerSacos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerMielProducida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_azucarPizarra, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_azucarPizarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_insumo_ageno)
-                    .addComponent(jTextField_insumoAjeno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
+                    .addComponent(jSpinnerAzucarPizarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerInsumoAjeno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_normaProduccion)
-                    .addComponent(jTextField_normaProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_refinoProcesar)
-                    .addComponent(jTextField_refinoProcesar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                    .addComponent(jSpinnerRefinoProcesar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerNorma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_refino)
-                    .addComponent(jTextField_normaRefino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_azucarTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_azucarTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(jLabel_azucarTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerAzucarTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerRefino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         jButton_insertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Add.png"))); // NOI18N
         jButton_insertar.setText("Insertar ");
+        jButton_insertar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton_insertarMouseClicked(evt);
+            }
+        });
+        jButton_insertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_insertarActionPerformed(evt);
+            }
+        });
 
         jButton_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Delete.png"))); // NOI18N
         jButton_eliminar.setText("Eliminar");
+        jButton_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_eliminarActionPerformed(evt);
+            }
+        });
 
         jButton_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Exit.png"))); // NOI18N
         jButton_cancelar.setText("Cancelar");
 
         jButton_actualizar.setText("Actualizar");
+
+        jLabel_id.setText("Id");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -187,7 +208,9 @@ public class jfListadoProduccion extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton_insertar)
                     .addComponent(jButton_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel_id)
+                .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton_eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -201,10 +224,15 @@ public class jfListadoProduccion extends javax.swing.JFrame {
                     .addComponent(jButton_insertar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel_id)
+                        .addGap(50, 50, 50))))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -226,28 +254,28 @@ public class jfListadoProduccion extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1015, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 428, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(31, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/images (1).jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -257,22 +285,26 @@ public class jfListadoProduccion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 140, Short.MAX_VALUE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(0, 33, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -281,6 +313,93 @@ public class jfListadoProduccion extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton_insertarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_insertarMouseClicked
+        int sacos = (int) jSpinnerSacos.getValue();
+        int azucarPizarra = (int) jSpinnerAzucarPizarra.getValue();
+        int normaProduccion = (int) jSpinnerNorma.getValue();
+        int refino = (int) jSpinnerRefino.getValue();
+        int mielProducida = (int) jSpinnerMielProducida.getValue();
+        int insumoAjeno = (int) jSpinnerInsumoAjeno.getValue();
+        int refinoProcesar = (int) jSpinnerRefinoProcesar.getValue();
+        int azucarTotal = (int) jSpinnerAzucarTotal.getValue();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-M-d");
+        java.util.Date fecha = new Date();
+        long d = fecha.getTime();
+        java.sql.Date fechaa = new java.sql.Date(d);
+        producion p = new producion(0, sacos, azucarPizarra, normaProduccion, refino, mielProducida, insumoAjeno, refinoProcesar, azucarTotal, fechaa);
+
+        pro.insertar(p);
+
+        pro.llenarTabla(jTable1);
+
+    }//GEN-LAST:event_jButton_insertarMouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int Fila = jTable1.getSelectedRow();
+        String codigo = jTable1.getValueAt(Fila, 9).toString();
+
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT\n"
+                    + "producion.id_producion,\n"
+                    + "producion.sacos,\n"
+                    + "producion.azucarPizarra,\n"
+                    + "producion.norma_producion,\n"
+                    + "producion.tm_refino,\n"
+                    + "producion.total_azucar,\n"
+                    + "producion.miel,\n"
+                    + "producion.insumo_ajeno,\n"
+                    + "producion.refino_a_procesar,\n"
+                    + "producion.produccion_fecha\n"
+                    + "FROM\n"
+                    + "producion where produccion_fecha=?");
+
+            ps.setString(1, codigo);
+            
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                jLabel_id.setText(rs.getString("id_producion"));
+                jSpinnerSacos.setValue(rs.getInt("sacos"));
+                jSpinnerAzucarPizarra.setValue(rs.getInt("azucarPizarra"));
+                jSpinnerNorma.setValue(rs.getInt("norma_producion"));
+                jSpinnerRefino.setValue(rs.getInt("tm_refino"));
+                jSpinnerMielProducida.setValue(rs.getInt("miel"));
+                jSpinnerInsumoAjeno.setValue(rs.getInt("insumo_ajeno"));
+                jSpinnerRefinoProcesar.setValue(rs.getInt("refino_a_procesar"));
+                jSpinnerAzucarTotal.setValue(rs.getInt("total_azucar"));
+
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton_insertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_insertarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_insertarActionPerformed
+
+    private void jButton_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_eliminarActionPerformed
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow() != -1) {
+            int id = Integer.parseInt(jLabel_id.getText());
+            int valor = Util.Util.confirmarInformacion(rootPane, "Eliminar", "Desea eliminar la serie");
+            if (valor == 0) {
+                producion prod = new producion(id);
+                pro.eliminar(prod);
+                limpiar();
+                pro.llenarTabla(jTable1);
+
+            } else {
+            }
+        } else {
+            Util.Util.mostrarError(rootPane, "Debe seleccionar una fila");
+        }
+    }//GEN-LAST:event_jButton_eliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,7 +412,7 @@ public class jfListadoProduccion extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -322,8 +441,10 @@ public class jfListadoProduccion extends javax.swing.JFrame {
     private javax.swing.JButton jButton_cancelar;
     private javax.swing.JButton jButton_eliminar;
     private javax.swing.JButton jButton_insertar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel_azucarPizarra;
     private javax.swing.JLabel jLabel_azucarTotal;
+    private javax.swing.JLabel jLabel_id;
     private javax.swing.JLabel jLabel_insumo_ageno;
     private javax.swing.JLabel jLabel_mielProducioda;
     private javax.swing.JLabel jLabel_normaProduccion;
@@ -334,14 +455,26 @@ public class jfListadoProduccion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinnerAzucarPizarra;
+    private javax.swing.JSpinner jSpinnerAzucarTotal;
+    private javax.swing.JSpinner jSpinnerInsumoAjeno;
+    private javax.swing.JSpinner jSpinnerMielProducida;
+    private javax.swing.JSpinner jSpinnerNorma;
+    private javax.swing.JSpinner jSpinnerRefino;
+    private javax.swing.JSpinner jSpinnerRefinoProcesar;
+    private javax.swing.JSpinner jSpinnerSacos;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField_azucarPizarra;
-    private javax.swing.JTextField jTextField_azucarTotal;
-    private javax.swing.JTextField jTextField_insumoAjeno;
-    private javax.swing.JTextField jTextField_mielProducida;
-    private javax.swing.JTextField jTextField_normaProduccion;
-    private javax.swing.JTextField jTextField_normaRefino;
-    private javax.swing.JTextField jTextField_refinoProcesar;
-    private javax.swing.JTextField jTextField_sacos;
     // End of variables declaration//GEN-END:variables
+
+    public void limpiar() {
+        jSpinnerSacos.setValue(0);
+        jSpinnerAzucarPizarra.setValue(0);
+        jSpinnerNorma.setValue(0);
+        jSpinnerRefino.setValue(0);
+        jSpinnerMielProducida.setValue(0);
+        jSpinnerInsumoAjeno.setValue(0);
+        jSpinnerRefinoProcesar.setValue(0);
+        jSpinnerAzucarTotal.setValue(0);
+    }
+
 }

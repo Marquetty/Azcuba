@@ -5,25 +5,32 @@
  */
 package models;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
  * @author Lenovo
  */
 public class producion {
- private int id_producion;
- private int sacos;
- private int azucar_pizarra;
- private int norma_producion;
- private int tm_refino;
- private int total_azucar;
- private int insumo_ajeno;
- private int refino_a_procesar;
- private Date producion_fecha;
 
-    public producion(int id_producion, int sacos, int azucar_pizarra, int norma_producion, int tm_refino, int total_azucar, int insumo_ajeno, int refino_a_procesar, Date producion_fecha) {
+    private int id_producion;
+    private int sacos;
+    private int miel;
+    private int azucar_pizarra;
+    private int norma_producion;
+    private int tm_refino;
+    private int total_azucar;
+    private int insumo_ajeno;
+    private int refino_a_procesar;
+    private Date producion_fecha;
+
+    public producion(int id_producion) {
         this.id_producion = id_producion;
+    }
+
+    public producion(int id_producion, int miel, int sacos, int azucar_pizarra, int norma_producion, int tm_refino, int total_azucar, int insumo_ajeno, int refino_a_procesar, Date producion_fecha) {
+        this.id_producion = id_producion;
+        this.miel = miel;
         this.sacos = sacos;
         this.azucar_pizarra = azucar_pizarra;
         this.norma_producion = norma_producion;
@@ -32,6 +39,14 @@ public class producion {
         this.insumo_ajeno = insumo_ajeno;
         this.refino_a_procesar = refino_a_procesar;
         this.producion_fecha = producion_fecha;
+    }
+
+    public int getMiel() {
+        return miel;
+    }
+
+    public void setMiel(int miel) {
+        this.miel = miel;
     }
 
     public int getId_producion() {
@@ -105,5 +120,5 @@ public class producion {
     public void setProducion_fecha(Date producion_fecha) {
         this.producion_fecha = producion_fecha;
     }
- 
+
 }

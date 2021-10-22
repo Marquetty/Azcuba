@@ -5,17 +5,32 @@
  */
 package views;
 
+import auth.Auth;
+import dao_conexion.dao_personal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import models.personal;
+
 /**
  *
  * @author Lenovo
  */
 public class jfListadoPersonal extends javax.swing.JFrame {
+    
+    Statement stmt = null;
+    ResultSet rs = null;
+    private final Auth SQL = new Auth();
+    private final Connection conn = SQL.conectarMySQL();
+    dao_personal per = new dao_personal();
 
     /**
      * Creates new form jfListadoPersonal
      */
     public jfListadoPersonal() {
         initComponents();
+        per.llenarTabla(jTable1);
     }
 
     /**
@@ -30,37 +45,51 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel_salario = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTextField_apellidos = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel_contrata = new javax.swing.JLabel();
         jTextField_ci = new javax.swing.JTextField();
         jTextField_nombre = new javax.swing.JTextField();
         jTextFiel_ocupacion = new javax.swing.JTextField();
-        jTextField_salario = new javax.swing.JTextField();
-        jTextField_salarioT = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jComboBox_contrata = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
+        jLabel_tiempo_contrata = new javax.swing.JLabel();
+        jLabel_mes = new javax.swing.JLabel();
+        jSpinnerSalario = new javax.swing.JSpinner();
+        jSpinnerSalarioContrata = new javax.swing.JSpinner();
+        jSpinnerTiempoContrata = new javax.swing.JSpinner();
         jPanel2 = new javax.swing.JPanel();
         jButton_insertar = new javax.swing.JButton();
         jButton_actualizar = new javax.swing.JButton();
         jButton_eliminar = new javax.swing.JButton();
         jButton_cancelar = new javax.swing.JButton();
+        jLabel_id = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jTextFieldBuscr = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel_ci = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listao de Personal");
         setResizable(false);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Formulario"));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Nombre");
@@ -68,8 +97,8 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Ocupación");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setText("Salario");
+        jLabel_salario.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_salario.setText("Salario");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("Apellidos");
@@ -80,33 +109,43 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         jTextField_apellidos.setText("Antunz Marquetty");
         jTextField_apellidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setText("Salario Contrata");
-        jLabel6.setEnabled(false);
+        jLabel_contrata.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_contrata.setText("Salario Contrata");
+        jLabel_contrata.setEnabled(false);
 
-        jTextField_ci.setText("97092616266");
         jTextField_ci.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField_nombre.setText("Antonio Santiago");
         jTextField_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField_nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_nombreActionPerformed(evt);
+            }
+        });
 
+        jTextFiel_ocupacion.setText("Operador B");
         jTextFiel_ocupacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField_salario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField_salarioT.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField_salarioT.setEnabled(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("CI");
 
         jComboBox_contrata.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
+        jComboBox_contrata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_contrataActionPerformed(evt);
+            }
+        });
 
-        jLabel9.setText("Tiempo contrata");
+        jLabel_tiempo_contrata.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel_tiempo_contrata.setText("Tiempo contrata");
+        jLabel_tiempo_contrata.setEnabled(false);
 
-        jTextField1.setText("jTextField1");
+        jLabel_mes.setText("Mes");
+        jLabel_mes.setEnabled(false);
 
-        jLabel10.setText("Mes");
+        jSpinnerSalarioContrata.setEnabled(false);
+
+        jSpinnerTiempoContrata.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -125,63 +164,80 @@ public class jfListadoPersonal extends javax.swing.JFrame {
                     .addComponent(jTextField_nombre, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField_ci, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextFiel_ocupacion))
-                .addGap(87, 87, 87)
+                .addGap(58, 58, 58)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
+                    .addComponent(jLabel_salario)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel_contrata)
+                    .addComponent(jLabel_tiempo_contrata))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox_contrata, 0, 55, Short.MAX_VALUE)
-                    .addComponent(jTextField_salario)
-                    .addComponent(jTextField_salarioT)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                    .addComponent(jSpinnerSalarioContrata, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSpinnerSalario)
+                    .addComponent(jComboBox_contrata, 0, 68, Short.MAX_VALUE)
+                    .addComponent(jSpinnerTiempoContrata))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel10)
-                .addContainerGap())
+                .addComponent(jLabel_mes, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(60, 60, 60)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField_ci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jComboBox_contrata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField_salario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                    .addComponent(jLabel_salario)
+                    .addComponent(jSpinnerSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextField_apellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField_salarioT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
+                    .addComponent(jLabel_contrata)
+                    .addComponent(jSpinnerSalarioContrata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextFiel_ocupacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
+                    .addComponent(jLabel_tiempo_contrata)
+                    .addComponent(jLabel_mes)
+                    .addComponent(jSpinnerTiempoContrata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton_insertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Add.png"))); // NOI18N
         jButton_insertar.setText("insertar");
+        jButton_insertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_insertarActionPerformed(evt);
+            }
+        });
 
         jButton_actualizar.setText("Actualizar");
+        jButton_actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_actualizarActionPerformed(evt);
+            }
+        });
 
         jButton_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Delete.png"))); // NOI18N
         jButton_eliminar.setText("Eliminar");
+        jButton_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_eliminarActionPerformed(evt);
+            }
+        });
 
         jButton_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Exit.png"))); // NOI18N
         jButton_cancelar.setText("Cancelar");
+
+        jLabel_id.setText("ID  ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -192,7 +248,9 @@ public class jfListadoPersonal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_insertar, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
                     .addComponent(jButton_actualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(51, 51, 51)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel_id, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton_eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -201,7 +259,7 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_insertar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_eliminar))
@@ -209,7 +267,11 @@ public class jfListadoPersonal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel_id)
+                .addGap(50, 50, 50))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -231,6 +293,11 @@ public class jfListadoPersonal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -239,66 +306,282 @@ public class jfListadoPersonal extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 876, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jTextFieldBuscr.setFont(new java.awt.Font("Segoe Script", 0, 18)); // NOI18N
         jTextFieldBuscr.setText("Buscar");
+        jTextFieldBuscr.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextFieldBuscrMouseClicked(evt);
+            }
+        });
+        jTextFieldBuscr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBuscrActionPerformed(evt);
+            }
+        });
+        jTextFieldBuscr.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldBuscrKeyPressed(evt);
+            }
+        });
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Search.png"))); // NOI18N
+
+        jLabel11.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/images (1).jpg"))); // NOI18N
+
+        jLabel_ci.setText("970926262666");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextFieldBuscr, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabel12)
+                        .addContainerGap(36, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(191, 191, 191)
+                        .addComponent(jLabel_ci)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel11)
+                        .addGap(11, 11, 11)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTextFieldBuscr, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_ci)
+                        .addGap(1, 1, 1)))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jComboBox_contrataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_contrataActionPerformed
+        // TODO add your handling code here:
+
+        if (jComboBox_contrata.getSelectedItem().equals("SI")) {
+            jSpinnerSalarioContrata.setEnabled(true);
+            jLabel_contrata.setEnabled(true);
+            jLabel_tiempo_contrata.setEnabled(true);
+            jSpinnerTiempoContrata.setEnabled(true);
+            jLabel_mes.setEnabled(true);
+            jSpinnerSalario.setEnabled(false);
+            jLabel_salario.setEnabled(false);
+        } else {
+            jSpinnerSalarioContrata.setEnabled(false);
+            jLabel_contrata.setEnabled(false);
+            jLabel_tiempo_contrata.setEnabled(false);
+            jSpinnerTiempoContrata.setEnabled(false);
+            jLabel_mes.setEnabled(false);
+            jSpinnerSalario.setEnabled(true);
+            jLabel_salario.setEnabled(true);
+        }
+    }//GEN-LAST:event_jComboBox_contrataActionPerformed
+
+    private void jButton_insertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_insertarActionPerformed
+        // TODO add your handling code here:
+        String ci = jTextField_ci.getText();
+        String nombre = jTextField_nombre.getText();
+        String apellidos = jTextField_apellidos.getText();
+        String ocupacion = jTextFiel_ocupacion.getText();
+        String contrata = jComboBox_contrata.getSelectedItem().toString();
+        int salario = (int) jSpinnerSalario.getValue();
+        int salario_contrata = (int) jSpinnerSalarioContrata.getValue();
+        int tiempo_contrata = (int) jSpinnerTiempoContrata.getValue();
+        
+        if (ValidarCi(ci)) {
+            if (per.Existe(ci) == 0) {
+                if (jComboBox_contrata.getSelectedItem().equals("SI")) {
+                    personal p = new personal(WIDTH, ci, nombre, apellidos, ocupacion, contrata, 0, salario_contrata, tiempo_contrata);
+                    per.insertar(p);
+                    per.llenarTabla(jTable1);
+                    
+                } else {
+                    personal p = new personal(WIDTH, ci, nombre, apellidos, ocupacion, contrata, salario, 0, 0);
+                    per.insertar(p);
+                    per.llenarTabla(jTable1);
+                }
+            } else {
+                Util.Util.mostrarError(rootPane, "Ya existe un trabajdor con el número de carnet " + ci);
+            }
+        } else {
+            Util.Util.mostrarError(rootPane, "verifique bien el número de carnet");
+        }
+        
+
+    }//GEN-LAST:event_jButton_insertarActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+
+        int Fila = jTable1.getSelectedRow();
+        String codigo = jTable1.getValueAt(Fila, 1).toString();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT\n"
+                    + "personal.id,\n"
+                    + "personal.ci,\n"
+                    + "personal.ocupacion,\n"
+                    + "personal.contrata,\n"
+                    + "personal.salario,\n"
+                    + "personal.tiempo_contrata,\n"
+                    + "personal.salario_contrata,\n"
+                    + "personal.nombre,\n"
+                    + "personal.apellidos\n"
+                    + "FROM\n"
+                    + "personal where ci=?");
+            
+            ps.setString(1, codigo);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                jLabel_id.setText(rs.getString("id"));
+                jTextField_ci.setText(rs.getString("ci"));
+                jTextField_nombre.setText(rs.getString("nombre"));
+                jTextField_apellidos.setText(rs.getString("apellidos"));
+                jTextFiel_ocupacion.setText(rs.getString("ocupacion"));
+                jComboBox_contrata.setSelectedItem(rs.getString("contrata"));
+                jSpinnerSalario.setValue(rs.getInt("salario"));
+                jSpinnerSalarioContrata.setValue(rs.getInt("salario_contrata"));
+                jSpinnerTiempoContrata.setValue(rs.getInt("tiempo_contrata"));
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_actualizarActionPerformed
+        // TODO add your handling code here:
+
+        if (jTable1.getSelectedRow() != -1) {
+            String ci = jTextField_ci.getText();
+            String nombre = jTextField_nombre.getText();
+            String apellidos = jTextField_apellidos.getText();
+            String ocupacion = jTextFiel_ocupacion.getText();
+            String contrata = jComboBox_contrata.getSelectedItem().toString();
+            int salario = (int) jSpinnerSalario.getValue();
+            int salario_contrata = (int) jSpinnerSalarioContrata.getValue();
+            int tiempo_contrata = (int) jSpinnerTiempoContrata.getValue();
+            int id = Integer.parseInt(jLabel_id.getText());
+            
+            if (ValidarCi(ci)) {
+                if (per.Existe(ci) == 0) {
+                    if (jComboBox_contrata.getSelectedItem().equals("SI")) {
+                        personal p = new personal(WIDTH, ci, nombre, apellidos, ocupacion, contrata, 0, salario_contrata, tiempo_contrata);
+                        per.insertar(p);
+                        per.llenarTabla(jTable1);
+                        
+                    } else {
+                        personal p = new personal(id);
+                        per.actualizar(p);
+                        per.llenarTabla(jTable1);
+                    }
+                } else {
+                    Util.Util.mostrarError(rootPane, "Ya existe un trabajdor con el número de carnet " + ci);
+                }
+            } else {
+                Util.Util.mostrarError(rootPane, "verifique bien el número de carnet");
+            }
+            
+        } else {
+            Util.Util.mostrarError(rootPane, "Debe Selecciona una Fila");
+        }
+    }//GEN-LAST:event_jButton_actualizarActionPerformed
+
+    private void jTextField_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_nombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_nombreActionPerformed
+
+    private void jButton_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_eliminarActionPerformed
+        if (jTable1.getSelectedRow() != -1) {
+            int valor = Util.Util.confirmarInformacion(rootPane, "Elimnar ", "Seguro que desea eliminar");
+            if (valor == 0) {
+                int id = Integer.parseInt(jLabel_id.getText());
+                personal p = new personal(id);
+                per.eliminar(p);
+                per.llenarTabla(jTable1);
+                
+            } else {
+                Util.Util.mostrarError(rootPane, "Debe Selecionar una fila");
+            }
+        }
+        
+
+    }//GEN-LAST:event_jButton_eliminarActionPerformed
+
+    private void jTextFieldBuscrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldBuscrMouseClicked
+        // TODO add your handling code here:
+        jTextFieldBuscr.setText("");
+    }//GEN-LAST:event_jTextFieldBuscrMouseClicked
+
+    private void jTextFieldBuscrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscrActionPerformed
+        // TODO add your handling code here:
+        
+
+    }//GEN-LAST:event_jTextFieldBuscrActionPerformed
+
+    private void jTextFieldBuscrKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscrKeyPressed
+        // TODO add your handling code here:
+        per.Buscar(jTable1, jTextFieldBuscr.getText());
+    }//GEN-LAST:event_jTextFieldBuscrKeyPressed
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        // TODO add your handling code here:
+        limpiar();
+    }//GEN-LAST:event_jPanel1MouseClicked
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        // TODO add your handling code here:
+        limpiar();
+        
+    }//GEN-LAST:event_formMouseClicked
 
     /**
      * @param args the command line arguments
@@ -311,7 +594,7 @@ public class jfListadoPersonal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -342,27 +625,74 @@ public class jfListadoPersonal extends javax.swing.JFrame {
     private javax.swing.JButton jButton_insertar;
     private javax.swing.JComboBox<String> jComboBox_contrata;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel_ci;
+    private javax.swing.JLabel jLabel_contrata;
+    private javax.swing.JLabel jLabel_id;
+    private javax.swing.JLabel jLabel_mes;
+    private javax.swing.JLabel jLabel_salario;
+    private javax.swing.JLabel jLabel_tiempo_contrata;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinnerSalario;
+    private javax.swing.JSpinner jSpinnerSalarioContrata;
+    private javax.swing.JSpinner jSpinnerTiempoContrata;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextFiel_ocupacion;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextFieldBuscr;
     private javax.swing.JTextField jTextField_apellidos;
     private javax.swing.JTextField jTextField_ci;
     private javax.swing.JTextField jTextField_nombre;
-    private javax.swing.JTextField jTextField_salario;
-    private javax.swing.JTextField jTextField_salarioT;
     // End of variables declaration//GEN-END:variables
+public void limpiar() {
+        jTextField_ci.setText("");
+        jTextField_nombre.setText("");
+        jTextField_apellidos.setText("");
+        jTextFiel_ocupacion.setText("");
+        jSpinnerSalario.setValue(0);
+        jSpinnerSalarioContrata.setValue(0);
+        jSpinnerTiempoContrata.setValue(0);
+    }
+    
+    public static boolean ValidarCi(String ci) {
+        int cont = 0;
+        for (int i = 0; i < ci.length(); i++) {
+            if (ci.charAt(i) >= '0' && ci.charAt(i) <= '9') {
+                cont++;
+            }
+        }
+        if (cont == 11) {
+            String mesS = ci.substring(2, 4);
+            String diaS = ci.substring(4, 6);
+            int dia = Integer.parseInt(diaS);
+            int mes = Integer.parseInt(mesS);
+            int[] mes_mas_dias = {1, 3, 5, 7, 8, 10, 12};
+            int[] mes_menos_dias = {4, 6, 9, 11};
+            
+            if (mes == 2 && dia >= 1 && dia <= 29) {
+                return true;
+            }
+            for (int mes_mas_dia : mes_mas_dias) {
+                if (mes == mes_mas_dia && (dia >= 1 && dia <= 31)) {
+                    return true;
+                }
+            }
+            for (int mes_menos_dia : mes_menos_dias) {
+                if (mes == mes_menos_dia && (dia >= 1 && dia <= 30)) {
+                    return true;
+                }
+            }
+            
+        }
+        return false;
+    }
+    
 }

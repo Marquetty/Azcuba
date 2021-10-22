@@ -12,7 +12,9 @@ import java.sql.Date;
  * @author Lenovo
  */
 public class consumo {
+
     private int id;
+    private int consumo_aceite;
     private int consumo_lodo;
     private int consumo_petroleo;
     private int biomasa;
@@ -22,8 +24,17 @@ public class consumo {
     private int indice_pretroleo;
     private Date consumo_fecha;
 
-    public consumo(int id, int consumo_lodo, int consumo_petroleo, int biomasa, int marabu, int recobrado, int indice_dia, int indice_pretroleo, Date consumo_fecha) {
+    public consumo(int id) {
         this.id = id;
+    }
+
+    public consumo(int id, int consumo_aceite, int consumo_lodo, int consumo_petroleo, int biomasa, int marabu, int recobrado, int indice_dia, int indice_pretroleo) {
+
+    }
+
+    public consumo(int id, int consumo_aceite, int consumo_lodo, int consumo_petroleo, int biomasa, int marabu, int recobrado, int indice_dia, int indice_pretroleo, Date consumo_fecha) {
+        this.id = id;
+        this.consumo_aceite = consumo_aceite;
         this.consumo_lodo = consumo_lodo;
         this.consumo_petroleo = consumo_petroleo;
         this.biomasa = biomasa;
@@ -42,7 +53,13 @@ public class consumo {
         this.id = id;
     }
 
-  
+    public int getConsumo_aceite() {
+        return consumo_aceite;
+    }
+
+    public void setConsumo_aceite(int consumo_aceite) {
+        this.consumo_aceite = consumo_aceite;
+    }
 
     public int getConsumo_lodo() {
         return consumo_lodo;
@@ -107,7 +124,5 @@ public class consumo {
     public void setConsumo_fecha(Date consumo_fecha) {
         this.consumo_fecha = consumo_fecha;
     }
-    
-            
-            
+
 }

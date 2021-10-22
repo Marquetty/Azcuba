@@ -28,15 +28,20 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="140" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jPanel3" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jPanel3" alignment="1" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="33" max="32767" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -45,15 +50,16 @@
           <Group type="102" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jPanel1" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -85,14 +91,14 @@
                       <Component id="jLabel_sacos" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel_azucarPizarra" alignment="1" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jTextField_normaRefino" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jTextField_normaProduccion" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jTextField_azucarPizarra" alignment="0" pref="60" max="32767" attributes="0"/>
-                      <Component id="jTextField_sacos" alignment="0" max="32767" attributes="0"/>
+                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jSpinnerNorma" pref="76" max="32767" attributes="0"/>
+                      <Component id="jSpinnerAzucarPizarra" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jSpinnerSacos" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jSpinnerRefino" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                           <Component id="jLabel_mielProducioda" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -100,84 +106,66 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel_azucarTotal" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                              <Component id="jLabel_refinoProcesar" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jLabel_refinoProcesar" max="32767" attributes="0"/>
+                              <Component id="jLabel_azucarTotal" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jTextField_azucarTotal" alignment="0" pref="60" max="32767" attributes="0"/>
-                      <Component id="jTextField_refinoProcesar" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jTextField_mielProducida" alignment="0" pref="60" max="32767" attributes="0"/>
-                      <Component id="jTextField_insumoAjeno" alignment="0" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jSpinnerAzucarTotal" pref="90" max="32767" attributes="0"/>
+                      <Component id="jSpinnerRefinoProcesar" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jSpinnerInsumoAjeno" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jSpinnerMielProducida" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="21" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel_sacos" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField_sacos" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel_mielProducioda" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField_mielProducida" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSpinnerSacos" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSpinnerMielProducida" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel_azucarPizarra" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="jTextField_azucarPizarra" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel_insumo_ageno" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField_insumoAjeno" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSpinnerAzucarPizarra" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSpinnerInsumoAjeno" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel_normaProduccion" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField_normaProduccion" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel_refinoProcesar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField_refinoProcesar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSpinnerRefinoProcesar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSpinnerNorma" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel_refino" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField_normaRefino" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField_azucarTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel_azucarTotal" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="jSpinnerAzucarTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSpinnerRefino" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="30" max="32767" attributes="0"/>
+                  <EmptySpace pref="56" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="jTextField_azucarTotal">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel_normaProduccion">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Norma de produccion"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextField_mielProducida">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel_refino">
@@ -188,30 +176,12 @@
             <Property name="text" type="java.lang.String" value="TM Refino"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField_insumoAjeno">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel_azucarTotal">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Az&#xfa;car total"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextField_refinoProcesar">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel_mielProducioda">
@@ -238,49 +208,12 @@
             <Property name="text" type="java.lang.String" value="Refino Procesar"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField_sacos">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextField_azucarPizarra">
-          <Properties>
-            <Property name="text" type="java.lang.String" value=" "/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextField_normaProduccion">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel_sacos">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Sacos"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextField_normaRefino">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel_azucarPizarra">
@@ -290,6 +223,22 @@
             </Property>
             <Property name="text" type="java.lang.String" value="TM de Az&#xfa;car Pizarra"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="jSpinnerSacos">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="jSpinnerAzucarPizarra">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="jSpinnerNorma">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="jSpinnerRefino">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="jSpinnerMielProducida">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="jSpinnerInsumoAjeno">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="jSpinnerRefinoProcesar">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="jSpinnerAzucarTotal">
         </Component>
       </SubComponents>
     </Container>
@@ -304,7 +253,9 @@
                       <Component id="jButton_insertar" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton_actualizar" min="-2" pref="103" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jLabel_id" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jButton_cancelar" max="32767" attributes="0"/>
                       <Component id="jButton_eliminar" max="32767" attributes="0"/>
@@ -322,11 +273,19 @@
                       <Component id="jButton_eliminar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton_cancelar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jButton_actualizar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jButton_cancelar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="jButton_actualizar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel_id" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -339,6 +298,10 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Insertar "/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_insertarMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_insertarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton_eliminar">
           <Properties>
@@ -347,6 +310,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Eliminar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_eliminarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton_cancelar">
           <Properties>
@@ -361,6 +327,11 @@
             <Property name="text" type="java.lang.String" value="Actualizar"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JLabel" name="jLabel_id">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Id"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel3">
@@ -368,25 +339,15 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="1015" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-              </Group>
+              <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="428" max="32767" attributes="0"/>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="386" max="-2" attributes="0"/>
-                      <EmptySpace pref="31" max="32767" attributes="0"/>
-                  </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="339" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -455,10 +416,20 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Image/images (1).jpg"/>
+        </Property>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

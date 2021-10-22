@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import models.personal;
 import models.transportacion;
 
@@ -19,6 +21,8 @@ import models.transportacion;
  * @author Lenovo
  */
 public class dao_personal {
+
+    DefaultTableModel modeloTabla = null;
 
     private final Auth SQL = new Auth();
     private final Connection conn = SQL.conectarMySQL();
@@ -30,14 +34,17 @@ public class dao_personal {
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
-            String query = "INSERT INTO personal (ci,ocupacion,contrata,salario,tiempo_contrata,salario_total)VALUES(?,?,?,?,?,?)";
+            String query = "INSERT INTO personal (ci,nombre,apellidos,ocupacion,contrata,salario,tiempo_contrata,salario_contrata)"
+                    + "VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, p.getCi());
-            ps.setString(2, p.getOcupacion());
-            ps.setString(3, p.getCotrata());
-            ps.setInt(4, p.getSalario());
-            ps.setString(5, p.getCotrata());
-            ps.setInt(6, p.getSalario_total());
+            ps.setString(2, p.getNombre());
+            ps.setString(3, p.getApellidos());
+            ps.setString(4, p.getOcupacion());
+            ps.setString(5, p.getContrata());
+            ps.setInt(6, p.getSalario());
+            ps.setInt(7, p.getSalario_contrata());
+            ps.setInt(8, p.getTiempo_contrata());
             ps.executeUpdate();
 
         } catch (SQLException ex) {
@@ -73,16 +80,17 @@ public class dao_personal {
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
-            String query = "UPDATE  personal  set ci=?,ocupacion=?,contrata=?,salario=?"
-                    + ",tiempo_contrata=?,salario_total=? where id=?";
+            String query = "UPDATE  personal  set ci=?,nombre=?,apellidos=?,ocupacion=?,contrata=?,salario=?"
+                    + ",tiempo_contrata=?,salario_contrata=? where id=?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, p.getCi());
-            ps.setString(2, p.getOcupacion());
-            ps.setString(3, p.getCotrata());
-            ps.setInt(4, p.getSalario());
-            ps.setString(5, p.getCotrata());
-            ps.setInt(6, p.getSalario_total());
-            ps.setInt(7, p.getId());
+            ps.setString(2, p.getNombre());
+            ps.setString(3, p.getOcupacion());
+            ps.setString(4, p.getContrata());
+            ps.setInt(5, p.getSalario());
+            ps.setInt(6, p.getSalario_contrata());
+            ps.setInt(7, p.getTiempo_contrata());
+            ps.setInt(8, p.getId());
             ps.executeUpdate();
 
         } catch (SQLException ex) {
@@ -148,6 +156,127 @@ public class dao_personal {
             }
         }
 
+    }
+
+    public int Existe(String ci) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select count(ci) from personal where ci=?");
+            ps.setString(1, ci);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 1;
+        } catch (Exception e) {
+            System.out.println(e);
+            return 1;
+        }
+    }
+
+    public void llenarTabla(JTable table) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String[] columna = {"No", "CI", "Nombre", "Apellidos", "Ocupacion", "Contrata",
+            "Salario", "Salario de contrata", "Tiempo de Contrata"};
+
+        try {
+            int contM = 1;
+            Object[] row = new Object[10];
+            modeloTabla = new DefaultTableModel(null, columna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false, false, false, false, false, false};
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            };
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT\n"
+                    + "personal.id,\n"
+                    + "personal.ci,\n"
+                    + "personal.ocupacion,\n"
+                    + "personal.contrata,\n"
+                    + "personal.salario,\n"
+                    + "personal.tiempo_contrata,\n"
+                    + "personal.salario_contrata,\n"
+                    + "personal.nombre,\n"
+                    + "personal.apellidos\n"
+                    + "FROM\n"
+                    + "personal"
+            );
+            while (rs.next()) {
+                row[0] = contM++;
+                row[1] = rs.getString("personal.ci");
+                row[2] = rs.getString("personal.nombre");
+                row[3] = rs.getString("personal.apellidos");
+                row[4] = rs.getString("personal.ocupacion");
+                row[5] = rs.getString("personal.contrata");
+                row[6] = rs.getString("personal.salario");
+                row[7] = rs.getString("personal.tiempo_contrata");
+                row[8] = rs.getString("personal.salario_contrata");
+
+                modeloTabla.addRow(row);
+
+            }
+            table.setModel(modeloTabla);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void Buscar(JTable table, String buscar) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String[] columna = {"No", "CI", "Nombre", "Apellidos", "Ocupacion", "Contrata",
+            "Salario", "Salario de contrata", "Tiempo de Contrata"};
+
+        try {
+            int contM = 1;
+            Object[] row = new Object[10];
+            modeloTabla = new DefaultTableModel(null, columna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false, false, false, false, false, false};
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            };
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT\n"
+                    + "personal.id,\n"
+                    + "personal.ci,\n"
+                    + "personal.ocupacion,\n"
+                    + "personal.contrata,\n"
+                    + "personal.salario,\n"
+                    + "personal.tiempo_contrata,\n"
+                    + "personal.salario_contrata,\n"
+                    + "personal.nombre,\n"
+                    + "personal.apellidos\n"
+                    + "FROM\n"
+                    + "personal where nombre like '%" + buscar + "%' or ci like '%" + buscar + "%'"
+            );
+            while (rs.next()) {
+                row[0] = contM++;
+                row[1] = rs.getString("personal.ci");
+                row[2] = rs.getString("personal.nombre");
+                row[3] = rs.getString("personal.apellidos");
+                row[4] = rs.getString("personal.ocupacion");
+                row[5] = rs.getString("personal.contrata");
+                row[6] = rs.getString("personal.salario");
+                row[7] = rs.getString("personal.tiempo_contrata");
+                row[8] = rs.getString("personal.salario_contrata");
+
+                modeloTabla.addRow(row);
+
+            }
+            table.setModel(modeloTabla);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
 }

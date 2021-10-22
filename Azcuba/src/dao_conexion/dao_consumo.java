@@ -14,7 +14,6 @@ import java.sql.Statement;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import models.consumo;
-import models.personal;
 
 /**
  *
@@ -33,17 +32,18 @@ public class dao_consumo {
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
-            String query = "INSERT INTO consumo (consumo_lodo,consumo_petroleo,consumo_biomasa,consumo_marabu"
-                    + ",recobrado,indice_dia,indice_petroleo,consumo_fecha)VALUES(?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO consumo (consumo_aceite,consumo_lodo,consumo_petroleo,consumo_biomasa,consumo_marabu"
+                    + ",recobrado,indice_dia,indice_petroleo,consumo_fecha)VALUES(?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, c.getConsumo_lodo());
-            ps.setInt(2, c.getConsumo_petroleo());
-            ps.setInt(3, c.getBiomasa());
-            ps.setInt(4, c.getMarabu());
-            ps.setInt(5, c.getRecobrado());
-            ps.setInt(6, c.getIndice_dia());
-            ps.setInt(7, c.getIndice_pretroleo());
-            ps.setDate(8, c.getConsumo_fecha());
+            ps.setInt(1, c.getConsumo_aceite());
+            ps.setInt(2, c.getConsumo_lodo());
+            ps.setInt(3, c.getConsumo_petroleo());
+            ps.setInt(4, c.getBiomasa());
+            ps.setInt(5, c.getMarabu());
+            ps.setInt(6, c.getRecobrado());
+            ps.setInt(7, c.getIndice_dia());
+            ps.setInt(8, c.getIndice_pretroleo());
+            ps.setDate(9, c.getConsumo_fecha());
             ps.executeUpdate();
 
         } catch (SQLException ex) {
@@ -79,17 +79,17 @@ public class dao_consumo {
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
-            String query = "UPDATE  consumo  set consumo_lodo=?,consumo_petroleo=?,consumo_biomasa=?,consumo_marabu=?"
-                    + ",recobrado=?,indice_dia=?,indice_petroleo=?,consumo_fecha=? where id_consumo=?";
+            String query = "UPDATE  consumo  set consumo_aceite=?,consumo_lodo=?,consumo_petroleo=?,consumo_biomasa=?,consumo_marabu=?"
+                    + ",recobrado=?,indice_dia=?,indice_petroleo=? where id_consumo=?";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, c.getConsumo_lodo());
-            ps.setInt(2, c.getConsumo_petroleo());
-            ps.setInt(3, c.getBiomasa());
-            ps.setInt(4, c.getMarabu());
-            ps.setInt(5, c.getRecobrado());
-            ps.setInt(6, c.getIndice_dia());
-            ps.setInt(7, c.getIndice_pretroleo());
-            ps.setDate(8, c.getConsumo_fecha());
+            ps.setInt(1, c.getConsumo_aceite());
+            ps.setInt(2, c.getConsumo_lodo());
+            ps.setInt(3, c.getConsumo_petroleo());
+            ps.setInt(4, c.getBiomasa());
+            ps.setInt(5, c.getMarabu());
+            ps.setInt(6, c.getRecobrado());
+            ps.setInt(7, c.getIndice_dia());
+            ps.setInt(8, c.getIndice_pretroleo());
             ps.setInt(9, c.getId());
             ps.executeUpdate();
 
@@ -126,7 +126,7 @@ public class dao_consumo {
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
-            String query = "DELETE from  consumo  where id=?";
+            String query = "DELETE from  consumo  where id_consumo=?";
             PreparedStatement ps = conn.prepareStatement(query);
 
             ps.setInt(1, c.getId());
@@ -161,15 +161,15 @@ public class dao_consumo {
     public void llenarTabla(JTable table) {
         Statement stmt = null;
         ResultSet rs = null;
-        String[] columna = {"No", "nombre", "Comite Primario"};
-        
+        String[] columna = {"No", "Consumo de Aceite", "Consumo de Lodo", "Consumo de Petroleo", "Consumo de Biomasa", "Consumo de Marabu", "Recobrado",
+            "Indice del Día", "Indice del Petroleo", "Fecha"};
 
         try {
             int contM = 1;
-            Object[] row = new Object[6];
+            Object[] row = new Object[10];
             modeloTabla = new DefaultTableModel(null, columna) {
                 boolean[] canEdit = new boolean[]{
-                    false, false, false, false, false};
+                    false, false, false, false, false, false, false, false, false,false};
 
                 @Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -178,19 +178,32 @@ public class dao_consumo {
             };
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT\n"
-                    + "comite_base.cb_id,\n"
-                    + "comite_base.cb_nombre,\n"
-                    + "comite_base.cb_cp_id,\n"
-                    + "comite_primario.cp_id,\n"
-                    + "comite_primario.cp_nombre\n"
+                    + "consumo.consumo_aceite,\n"
+                    + "consumo.id_consumo,\n"
+                    + "consumo.consumo_lodo,\n"
+                    + "consumo.consumo_petroleo,\n"
+                    + "consumo.consumo_biomasa,\n"
+                    + "consumo.consumo_marabu,\n"
+                    + "consumo.recobrado,\n"
+                    + "consumo.indice_dia,\n"
+                    + "consumo.indice_petroleo,\n"
+                    + "consumo.consumo_fecha\n"
                     + "FROM\n"
-                    + "comite_base\n"
-                    + "INNER JOIN comite_primario ON comite_base.cb_cp_id = comite_primario.cp_id"
+                    + "consumo\n"
+                    + "ORDER BY\n"
+                    + "consumo.consumo_fecha ASC"
             );
             while (rs.next()) {
                 row[0] = contM++;
-                row[1] = rs.getString("cb_nombre");
-                row[2] = rs.getString("comite_primario.cp_nombre");
+                row[1] = rs.getString("consumo.consumo_aceite");
+                row[2] = rs.getString("consumo.consumo_lodo");
+                row[3] = rs.getString("consumo_petroleo");
+                row[4] = rs.getString("consumo.consumo_biomasa");
+                row[5] = rs.getString("consumo.consumo_marabu");
+                row[6] = rs.getString("consumo.recobrado");
+                row[7] = rs.getString("consumo.indice_dia");
+                row[8] = rs.getString("consumo.indice_petroleo");
+                row[9] = rs.getString("consumo.consumo_fecha");
 
                 modeloTabla.addRow(row);
 
