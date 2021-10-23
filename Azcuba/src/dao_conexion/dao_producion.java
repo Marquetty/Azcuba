@@ -82,7 +82,7 @@ public class dao_producion {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
             String query = "UPDATE  producion  set sacos=?,azucarPizarra=?,norma_producion=?,tm_refino=?,total_azucar=?,miel=?,"
-                    + "insumo_ajeno=?,refino_a_procesar=?,produccion_fecha=? where id=?";
+                    + "insumo_ajeno=?,refino_a_procesar=? where id_producion=?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, p.getSacos());
             ps.setInt(2, p.getAzucar_pizarra());
@@ -92,8 +92,8 @@ public class dao_producion {
             ps.setInt(6, p.getMiel());
             ps.setInt(7, p.getInsumo_ajeno());
             ps.setInt(8, p.getRefino_a_procesar());
-            ps.setDate(9, p.getProducion_fecha());
-            ps.setInt(10, p.getId_producion());
+           
+            ps.setInt(9, p.getId_producion());
             ps.executeUpdate();
 
         } catch (SQLException ex) {

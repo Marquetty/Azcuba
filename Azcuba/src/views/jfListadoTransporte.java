@@ -18,7 +18,7 @@ import models.transportacion;
  * @author Lenovo
  */
 public class jfListadoTransporte extends javax.swing.JFrame {
-    
+
     Statement stmt = null;
     ResultSet rs = null;
     private final Auth SQL = new Auth();
@@ -145,9 +145,19 @@ public class jfListadoTransporte extends javax.swing.JFrame {
         });
 
         jButton_actualizar.setText("Actualizar");
+        jButton_actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_actualizarActionPerformed(evt);
+            }
+        });
 
         jButton_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Delete.png"))); // NOI18N
         jButton_eliminar.setText("Eliminar");
+        jButton_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_eliminarActionPerformed(evt);
+            }
+        });
 
         jButton_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Exit.png"))); // NOI18N
         jButton_cancelar.setText("Atrás");
@@ -237,7 +247,7 @@ public class jfListadoTransporte extends javax.swing.JFrame {
         // TODO add your handling code here:
         int Fila = jTable1.getSelectedRow();
         String codigo = jTable1.getValueAt(Fila, 1).toString();
-        
+
         try {
             PreparedStatement ps = conn.prepareStatement("SELECT\n"
                     + "transportacion.id_vehiculo,\n"
@@ -247,19 +257,20 @@ public class jfListadoTransporte extends javax.swing.JFrame {
                     + "FROM\n"
                     + "transportacion\n"
                     + " where tipo_vehiculo=?");
-            
+
             ps.setString(1, codigo);
             rs = ps.executeQuery();
             while (rs.next()) {
+                jLabel_id.setText(rs.getString("id_vehiculo"));
                 jComboBox_tipoVehiculo.setSelectedItem(rs.getString("tipo_vehiculo"));
                 jTextField_marca.setText(rs.getString("modelo"));
                 jTextField_modelo.setText(rs.getString("marca"));
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
-        
+
 
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -268,12 +279,42 @@ public class jfListadoTransporte extends javax.swing.JFrame {
         String tipoVehiculo = jComboBox_tipoVehiculo.getSelectedItem().toString();
         String marca = jTextField_marca.getText();
         String modelo = jTextField_modelo.getText();
-        
+
         models.transportacion transportacion = new transportacion(MOVE_CURSOR, tipoVehiculo, modelo, marca);
         tr.insertar(transportacion);
         limpiar();
         tr.llenarTabla(jTable1);
     }//GEN-LAST:event_jButton_insertarActionPerformed
+
+    private void jButton_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_actualizarActionPerformed
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow() != -1) {
+            String tipoVehiculo = jComboBox_tipoVehiculo.getSelectedItem().toString();
+            String marca = jTextField_marca.getText();
+            String modelo = jTextField_modelo.getText();
+
+            models.transportacion transportacion = new transportacion(WIDTH, tipoVehiculo, modelo, marca);
+            tr.insertar(transportacion);
+            limpiar();
+            tr.llenarTabla(jTable1);
+
+        } else {
+            Util.Util.mostrarError(rootPane, "Selecione una fila");
+        }
+    }//GEN-LAST:event_jButton_actualizarActionPerformed
+
+    private void jButton_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_eliminarActionPerformed
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow() != -1) {
+            int valor = Util.Util.confirmarInformacion(rootPane, "Eliminar", "Seguro que desea eliminar");
+            if (valor == 0) {
+                int id = Integer.parseInt(jLabel_id.getText());
+                transportacion transp = new transportacion(id);
+                tr.eliminar(transp);
+                tr.llenarTabla(jTable1);
+            }
+        }
+    }//GEN-LAST:event_jButton_eliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,5 +376,5 @@ public class jfListadoTransporte extends javax.swing.JFrame {
         jTextField_marca.setText("");
         jTextField_modelo.setText("");
     }
-    
+
 }

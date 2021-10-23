@@ -75,7 +75,7 @@ public class dao_consumo {
     public void actualizar(consumo c) {
         Statement stmt = null;
         ResultSet rs = null;
-
+     
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
@@ -92,6 +92,7 @@ public class dao_consumo {
             ps.setInt(8, c.getIndice_pretroleo());
             ps.setInt(9, c.getId());
             ps.executeUpdate();
+            
 
         } catch (SQLException ex) {
             // handle any errors

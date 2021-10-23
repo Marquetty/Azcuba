@@ -196,6 +196,11 @@ public class jfListadoProduccion extends javax.swing.JFrame {
         jButton_cancelar.setText("Cancelar");
 
         jButton_actualizar.setText("Actualizar");
+        jButton_actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_actualizarActionPerformed(evt);
+            }
+        });
 
         jLabel_id.setText("Id");
 
@@ -327,7 +332,7 @@ public class jfListadoProduccion extends javax.swing.JFrame {
         java.util.Date fecha = new Date();
         long d = fecha.getTime();
         java.sql.Date fechaa = new java.sql.Date(d);
-        producion p = new producion(0, sacos, azucarPizarra, normaProduccion, refino, mielProducida, insumoAjeno, refinoProcesar, azucarTotal, fechaa);
+        producion p = new producion(WIDTH, mielProducida, sacos, azucarPizarra, normaProduccion, refino, azucarTotal, insumoAjeno, refinoProcesar, fechaa);
 
         pro.insertar(p);
 
@@ -356,10 +361,10 @@ public class jfListadoProduccion extends javax.swing.JFrame {
                     + "producion where produccion_fecha=?");
 
             ps.setString(1, codigo);
-            
+
             rs = ps.executeQuery();
             while (rs.next()) {
-                
+
                 jLabel_id.setText(rs.getString("id_producion"));
                 jSpinnerSacos.setValue(rs.getInt("sacos"));
                 jSpinnerAzucarPizarra.setValue(rs.getInt("azucarPizarra"));
@@ -387,7 +392,7 @@ public class jfListadoProduccion extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (jTable1.getSelectedRow() != -1) {
             int id = Integer.parseInt(jLabel_id.getText());
-            int valor = Util.Util.confirmarInformacion(rootPane, "Eliminar", "Desea eliminar la serie");
+            int valor = Util.Util.confirmarInformacion(rootPane, "Eliminar", "Desea eliminar la produción");
             if (valor == 0) {
                 producion prod = new producion(id);
                 pro.eliminar(prod);
@@ -400,6 +405,25 @@ public class jfListadoProduccion extends javax.swing.JFrame {
             Util.Util.mostrarError(rootPane, "Debe seleccionar una fila");
         }
     }//GEN-LAST:event_jButton_eliminarActionPerformed
+
+    private void jButton_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_actualizarActionPerformed
+        if (jTable1.getSelectedRow() != -1) {
+            int sacos = (int) jSpinnerSacos.getValue();
+            int azucarPizarra = (int) jSpinnerAzucarPizarra.getValue();
+            int normaProduccion = (int) jSpinnerNorma.getValue();
+            int refino = (int) jSpinnerRefino.getValue();
+            int mielProducida = (int) jSpinnerMielProducida.getValue();
+            int insumoAjeno = (int) jSpinnerInsumoAjeno.getValue();
+            int refinoProcesar = (int) jSpinnerRefinoProcesar.getValue();
+            int azucarTotal = (int) jSpinnerAzucarTotal.getValue();
+            int id = Integer.parseInt(jLabel_id.getText());
+            producion p = new producion(id, mielProducida, sacos, azucarPizarra, normaProduccion, refino, azucarTotal, insumoAjeno, refinoProcesar);
+
+            pro.actualizar(p);
+
+            pro.llenarTabla(jTable1);
+        }
+    }//GEN-LAST:event_jButton_actualizarActionPerformed
 
     /**
      * @param args the command line arguments

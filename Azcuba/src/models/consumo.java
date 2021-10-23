@@ -29,7 +29,15 @@ public class consumo {
     }
 
     public consumo(int id, int consumo_aceite, int consumo_lodo, int consumo_petroleo, int biomasa, int marabu, int recobrado, int indice_dia, int indice_pretroleo) {
-
+        this.id = id;
+        this.consumo_aceite = consumo_aceite;
+        this.consumo_lodo = consumo_lodo;
+        this.consumo_petroleo = consumo_petroleo;
+        this.biomasa = biomasa;
+        this.marabu = marabu;
+        this.recobrado = recobrado;
+        this.indice_dia = indice_dia;
+        this.indice_pretroleo = indice_pretroleo;
     }
 
     public consumo(int id, int consumo_aceite, int consumo_lodo, int consumo_petroleo, int biomasa, int marabu, int recobrado, int indice_dia, int indice_pretroleo, Date consumo_fecha) {

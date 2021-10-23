@@ -10,10 +10,15 @@ package models;
  * @author Lenovo
  */
 public class transportacion {
+
     private int id_vehiculo;
     private String tipo_vehiculo;
     private String modelo;
     private String marca;
+
+    public transportacion(int id_vehiculo) {
+        this.id_vehiculo = id_vehiculo;
+    }
 
     public transportacion(int id_vehiculo, String tipo_vehiculo, String modelo, String marca) {
         this.id_vehiculo = id_vehiculo;
@@ -53,5 +58,5 @@ public class transportacion {
     public void setMarca(String marca) {
         this.marca = marca;
     }
-            
+
 }

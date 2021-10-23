@@ -28,6 +28,19 @@ public class producion {
         this.id_producion = id_producion;
     }
 
+    public producion(int id_producion, int miel, int sacos, int azucar_pizarra, int norma_producion, int tm_refino, int total_azucar, int insumo_ajeno, int refino_a_procesar) {
+        this.id_producion = id_producion;
+        this.miel = miel;
+        this.sacos = sacos;
+        this.azucar_pizarra = azucar_pizarra;
+        this.norma_producion = norma_producion;
+        this.tm_refino = tm_refino;
+        this.total_azucar = total_azucar;
+        this.insumo_ajeno = insumo_ajeno;
+        this.refino_a_procesar = refino_a_procesar;
+
+    }
+
     public producion(int id_producion, int miel, int sacos, int azucar_pizarra, int norma_producion, int tm_refino, int total_azucar, int insumo_ajeno, int refino_a_procesar, Date producion_fecha) {
         this.id_producion = id_producion;
         this.miel = miel;
