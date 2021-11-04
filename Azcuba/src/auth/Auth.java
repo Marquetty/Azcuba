@@ -45,6 +45,21 @@ public class Auth {
 
     private static Connection conn = null;
 
+    private static volatile Auth instance;
+
+    public static Auth getInstance() {
+        Auth result = instance;
+        if (result != null) {
+            return result;
+        }
+        synchronized(Auth.class) {
+            if (instance == null) {
+                instance = new Auth();
+            }
+            return instance;
+        }
+    }
+
     public Connection conectarMySQL() {
 
         try {
