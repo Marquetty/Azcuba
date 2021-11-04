@@ -41,7 +41,7 @@ public class Auth {
     public String username = "root";
 
     // Clave de usuario
-    public String password = "";
+    public String password = "gcristia";
 
     private static Connection conn = null;
 
