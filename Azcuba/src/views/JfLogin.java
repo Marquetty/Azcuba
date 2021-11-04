@@ -6,7 +6,11 @@
 package views;
 
 import auth.Auth;
+import helps.SHA256;
 
+import javax.swing.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,34 +22,39 @@ import java.sql.Statement;
 public class JfLogin extends javax.swing.JFrame {
 
     // Instanci clase AUTH
-    private final Auth SQL = new Auth();
+    private final Auth SQL = Auth.getInstance();
     // Llamas al método que tiene la clase y te devuelve una conexión
     private final Connection conn = SQL.conectarMySQL();
 
     /**
      * Creates new form JfLogin
      */
-    public JfLogin() {
+    public JfLogin() throws NoSuchAlgorithmException, InvalidKeySpecException {
         initComponents();
         init();
     }
 
     private void init() {
+
+        final JPasswordField pfPassword = new JPasswordField(20);
+    }
+
+    private boolean isValid(String user, String enterPasswd) throws NoSuchAlgorithmException, InvalidKeySpecException {
         Statement stmt = null;
         ResultSet rs = null;
+        String findPass = "";
 
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
-            String query = "SELECT * FROM usuario";
+            String query = "SELECT contrasenna FROM usuario WHERE usuario.nombre = \""+user+"\"";
             rs = stmt.executeQuery(query);
             while (rs.next()) {
-                System.out.println(rs.getString(1));    //1r Column ID
-                System.out.println(rs.getString(2));    //2da Column USER
-                System.out.println(rs.getString(3));    //3ra Column ROL
+                //System.out.println(rs.getString(1));    //pass
+                findPass = rs.getString(1);
             }
-            
-            
+
+
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
@@ -69,6 +78,16 @@ public class JfLogin extends javax.swing.JFrame {
 
             }
         }
+
+        if(!findPass.equals("")){
+            //Se encontro al usuario
+            // Verificamos que el password coincida
+            System.out.println("ENTRE");
+            SHA256 sha256 = new SHA256();
+            return sha256.validatePassword(enterPasswd,findPass);
+        }
+
+        return false;
     }
 
     /**
@@ -83,7 +102,7 @@ public class JfLogin extends javax.swing.JFrame {
         jLabelUsuario = new javax.swing.JLabel();
         jLabelContrasenna = new javax.swing.JLabel();
         jTextFieldUsuario = new javax.swing.JTextField();
-        jTextFieldContrasenna = new javax.swing.JTextField();
+        jTextFieldContrasenna = new javax.swing.JPasswordField(20);
         jButtonAceptar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
 
@@ -97,59 +116,101 @@ public class JfLogin extends javax.swing.JFrame {
         jButtonAceptar.setText("Aceptar");
         jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAceptarActionPerformed(evt);
+                try {
+                    jButtonAceptarActionPerformed(evt);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeySpecException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(49, 49, 49)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(jLabelContrasenna)
-                                                        .addComponent(jLabelUsuario))
-                                                .addGap(35, 35, 35)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jTextFieldContrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(129, 129, 129)
-                                                .addComponent(jButtonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(21, 21, 21)
-                                                .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelContrasenna)
+                            .addComponent(jLabelUsuario))
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldContrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addComponent(jButtonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21)
+                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabelUsuario)
-                                        .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabelContrasenna)
-                                        .addComponent(jTextFieldContrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(35, 35, 35)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButtonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(38, Short.MAX_VALUE))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelUsuario)
+                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelContrasenna)
+                    .addComponent(jTextFieldContrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
-            new jfPrincipal().setVisible(true); 
-            dispose();
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) throws NoSuchAlgorithmException, InvalidKeySpecException {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        
+        String user = jTextFieldUsuario.getText();
+        String password = jTextFieldContrasenna.getText();
+
+        if(user.equals("") || password.equals("")){
+            messageAlert("ATENCION","RELLENE LOS CAMPOS",JOptionPane.WARNING_MESSAGE);
+        }else{
+            if(isValid(user.toLowerCase(),password)){
+                new jfPrincipal().setVisible(true);
+                dispose();
+            }else {
+                messageAlert("ERROR","USUARIO o CONTRASEÑA INCORRECTO",JOptionPane.ERROR_MESSAGE);
+                jTextFieldUsuario.setText("");
+                jTextFieldContrasenna.setText("");
+            }
+        }
+
     }//GEN-LAST:event_jButtonAceptarActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void messageAlert(String title, String message,int type_message ){
+         // Tipos de Mensajes
+        //JOptionPane.WARNING_MESSAGE
+        //JOptionPane.ERROR_MESSAGE
+        //JOptionPane.INFORMATION_MESSAGE
+
+        JOptionPane optionPane = new JOptionPane(message,type_message);
+        JDialog dialog = optionPane.createDialog(title);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+    }
 
     /**
      * @param args the command line arguments
@@ -182,7 +243,11 @@ public class JfLogin extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-                new JfLogin().setVisible(true);
+                try {
+                    new JfLogin().setVisible(true);
+                } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
