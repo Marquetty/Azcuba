@@ -35,8 +35,6 @@ public class JfLogin extends javax.swing.JFrame {
     }
 
     private void init() {
-
-        final JPasswordField pfPassword = new JPasswordField(20);
     }
 
     private boolean isValid(String user, String enterPasswd) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -80,10 +78,9 @@ public class JfLogin extends javax.swing.JFrame {
         }
 
         if(!findPass.equals("")){
-            //Se encontro al usuario
-            // Verificamos que el password coincida
-            System.out.println("ENTRE");
+            //SI entra -> Se encontro al usuario
             SHA256 sha256 = new SHA256();
+            // Verificamos que el password coincida (PASSWORD entrado por USUARIO, PASSWORD EN BD)
             return sha256.validatePassword(enterPasswd,findPass);
         }
 
