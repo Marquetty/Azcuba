@@ -11,6 +11,7 @@ import dao_conexion.dao_transportacion;
 import java.sql.Date;
 import models.personal;
 import models.transportacion;
+import report.Reporte;
 
 /**
  *
@@ -19,6 +20,7 @@ import models.transportacion;
 public class prueba {
 
     public static void main(String[] args) {
-       
+        report.Reporte rep = new Reporte();
+        rep.reporte();
     }
 }
