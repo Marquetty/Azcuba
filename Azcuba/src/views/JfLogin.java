@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Lenovo
@@ -45,13 +47,12 @@ public class JfLogin extends javax.swing.JFrame {
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
-            String query = "SELECT contrasenna FROM usuario WHERE usuario.nombre = \""+user+"\"";
+            String query = "SELECT contrasenna FROM usuario WHERE usuario.nombre = \"" + user + "\"";
             rs = stmt.executeQuery(query);
             while (rs.next()) {
                 //System.out.println(rs.getString(1));    //pass
                 findPass = rs.getString(1);
             }
-
 
         } catch (SQLException ex) {
             // handle any errors
@@ -77,11 +78,11 @@ public class JfLogin extends javax.swing.JFrame {
             }
         }
 
-        if(!findPass.equals("")){
+        if (!findPass.equals("")) {
             //SI entra -> Se encontro al usuario
             SHA256 sha256 = new SHA256();
             // Verificamos que el password coincida (PASSWORD entrado por USUARIO, PASSWORD EN BD)
-            return sha256.validatePassword(enterPasswd,findPass);
+            return sha256.validatePassword(enterPasswd, findPass);
         }
 
         return false;
@@ -99,9 +100,9 @@ public class JfLogin extends javax.swing.JFrame {
         jLabelUsuario = new javax.swing.JLabel();
         jLabelContrasenna = new javax.swing.JLabel();
         jTextFieldUsuario = new javax.swing.JTextField();
-        jTextFieldContrasenna = new javax.swing.JPasswordField(20);
-        jButtonAceptar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Autentificar");
@@ -110,18 +111,7 @@ public class JfLogin extends javax.swing.JFrame {
 
         jLabelContrasenna.setText("Contraseña");
 
-        jButtonAceptar.setText("Aceptar");
-        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    jButtonAceptarActionPerformed(evt);
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                } catch (InvalidKeySpecException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        jTextFieldUsuario.setText("SAN");
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -130,80 +120,91 @@ public class JfLogin extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Aceptar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelContrasenna)
+                    .addComponent(jLabelUsuario))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelContrasenna)
-                            .addComponent(jLabelUsuario))
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldContrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(jButtonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
-                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelUsuario)
-                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelContrasenna)
-                    .addComponent(jTextFieldContrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelContrasenna)
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) throws NoSuchAlgorithmException, InvalidKeySpecException {//GEN-FIRST:event_jButtonAceptarActionPerformed
-        
-        String user = jTextFieldUsuario.getText();
-        String password = jTextFieldContrasenna.getText();
-
-        if(user.equals("") || password.equals("")){
-            messageAlert("ATENCION","RELLENE LOS CAMPOS",JOptionPane.WARNING_MESSAGE);
-        }else{
-            if(isValid(user.toLowerCase(),password)){
-                new jfPrincipal().setVisible(true);
-                dispose();
-            }else {
-                messageAlert("ERROR","USUARIO o CONTRASEÑA INCORRECTO",JOptionPane.ERROR_MESSAGE);
-                jTextFieldUsuario.setText("");
-                jTextFieldContrasenna.setText("");
-            }
-        }
-
-    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
-    private void messageAlert(String title, String message,int type_message ){
-         // Tipos de Mensajes
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String user = jTextFieldUsuario.getText();
+        String password = jPasswordField1.getText();
+
+        if (user.equals("") || password.equals("")) {
+            messageAlert("ATENCION", "RELLENE LOS CAMPOS", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                if (isValid(user.toLowerCase(), password)) {
+                    new jfPrincipal().setVisible(true);
+                    dispose();
+                } else {
+                    messageAlert("ERROR", "USUARIO o CONTRASEÑA INCORRECTO", JOptionPane.ERROR_MESSAGE);
+                    jTextFieldUsuario.setText("");
+                    jPasswordField1.setText("");
+                }
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(JfLogin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvalidKeySpecException ex) {
+                Logger.getLogger(JfLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void messageAlert(String title, String message, int type_message) {
+        // Tipos de Mensajes
         //JOptionPane.WARNING_MESSAGE
         //JOptionPane.ERROR_MESSAGE
         //JOptionPane.INFORMATION_MESSAGE
 
-        JOptionPane optionPane = new JOptionPane(message,type_message);
+        JOptionPane optionPane = new JOptionPane(message, type_message);
         JDialog dialog = optionPane.createDialog(title);
         dialog.setAlwaysOnTop(true);
         dialog.setVisible(true);
@@ -220,7 +221,7 @@ public class JfLogin extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -250,11 +251,11 @@ public class JfLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonAceptar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JLabel jLabelContrasenna;
     private javax.swing.JLabel jLabelUsuario;
-    private javax.swing.JTextField jTextFieldContrasenna;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextFieldUsuario;
     // End of variables declaration//GEN-END:variables
 }

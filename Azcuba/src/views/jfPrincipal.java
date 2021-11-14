@@ -42,6 +42,11 @@ public class jfPrincipal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
 
         jMenu4.setText("File");
@@ -53,6 +58,7 @@ public class jfPrincipal extends javax.swing.JFrame {
         jMenuItem5.setText("jMenuItem5");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/0-17-central-azucarero-siboney-1.jpg"))); // NOI18N
 
@@ -99,13 +105,53 @@ public class jfPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem6.setText("Reporte de producion por día");
+        jMenuItem6.setText("Producion por día");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem6);
+
+        jMenuItem7.setText("Consumo  por mes");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
+
+        jMenuItem8.setText("Consumo por año");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
+
+        jMenuItem9.setText("Produccion por mes");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem9);
+
+        jMenuItem10.setText("Porcucciòn por año");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem10);
+
+        jMenuItem11.setText("Por edad");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem11);
 
         jMenuBar1.add(jMenu2);
 
@@ -130,6 +176,7 @@ public class jfPrincipal extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,12 +191,12 @@ public class jfPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-
+        
         jfListadoProduccion jfpro = new jfListadoProduccion();
         jfpro.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
+    
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
@@ -168,6 +215,36 @@ public class jfPrincipal extends javax.swing.JFrame {
         jfproduccionxfecha jfprofecha = new jfproduccionxfecha();
         jfprofecha.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        jfConsumexmes jfconsumomes = new jfConsumexmes();
+        jfconsumomes.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+        jfConsumoxanno jfconsumoanno = new jfConsumoxanno();
+        jfconsumoanno.setVisible(true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+        jfProducionxmes jfproduccionmes = new jfProducionxmes();
+        jfproduccionmes.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+        jfProducioxanno jfproduccionanno = new jfProducioxanno();
+        jfproduccionanno.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        jfMayoresde jfmayor = new jfMayoresde();
+        jfmayor.setVisible(true);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,10 +291,15 @@ public class jfPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 }

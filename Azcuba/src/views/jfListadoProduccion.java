@@ -35,6 +35,7 @@ public class jfListadoProduccion extends javax.swing.JFrame {
     public jfListadoProduccion() {
         initComponents();
         pro.llenarTabla(jTable1);
+        ajustarTablaConsumo();
     }
 
     /**
@@ -332,12 +333,15 @@ public class jfListadoProduccion extends javax.swing.JFrame {
         java.util.Date fecha = new Date();
         long d = fecha.getTime();
         java.sql.Date fechaa = new java.sql.Date(d);
-        producion p = new producion(WIDTH, mielProducida, sacos, azucarPizarra, normaProduccion, refino, azucarTotal, insumoAjeno, refinoProcesar, fechaa);
+        if (pro.existe(fechaa) == 0) {
+            producion p = new producion(WIDTH, mielProducida, sacos, azucarPizarra, normaProduccion, refino, azucarTotal, insumoAjeno, refinoProcesar, fechaa);
+            pro.insertar(p);
+            limpiar();
+            pro.llenarTabla(jTable1);
 
-        pro.insertar(p);
-
-        pro.llenarTabla(jTable1);
-
+        } else {
+            Util.Util.mostrarError(rootPane, "Solo 1 por dia");
+        }
     }//GEN-LAST:event_jButton_insertarMouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -499,6 +503,40 @@ public class jfListadoProduccion extends javax.swing.JFrame {
         jSpinnerInsumoAjeno.setValue(0);
         jSpinnerRefinoProcesar.setValue(0);
         jSpinnerAzucarTotal.setValue(0);
+    }
+
+    public final void ajustarTablaConsumo() {
+        //columna No
+        jTable1.getColumnModel().getColumn(0).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(30);
+        //columna Sacos
+        jTable1.getColumnModel().getColumn(1).setMinWidth(80);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(80);
+        //columna Azucar
+        jTable1.getColumnModel().getColumn(2).setMinWidth(110);
+        jTable1.getColumnModel().getColumn(2).setMaxWidth(110);
+        //columna Normas
+        jTable1.getColumnModel().getColumn(3).setMinWidth(120);
+        jTable1.getColumnModel().getColumn(3).setMaxWidth(120);
+        //columna Refino
+        jTable1.getColumnModel().getColumn(4).setMinWidth(80);
+        jTable1.getColumnModel().getColumn(4).setMaxWidth(80);
+        //columna Total de Azucar
+        jTable1.getColumnModel().getColumn(5).setMinWidth(110);
+        jTable1.getColumnModel().getColumn(5).setMaxWidth(110);
+        //columna Miel
+        jTable1.getColumnModel().getColumn(6).setMinWidth(70);
+        jTable1.getColumnModel().getColumn(6).setMaxWidth(70);
+        //columna Insumo Ajeno
+        jTable1.getColumnModel().getColumn(7).setMinWidth(110);
+        jTable1.getColumnModel().getColumn(7).setMaxWidth(110);
+        //columna Refino a Procesar
+        jTable1.getColumnModel().getColumn(8).setMinWidth(100);
+        jTable1.getColumnModel().getColumn(8).setMaxWidth(100);
+        //columna fecha de Produccion
+        jTable1.getColumnModel().getColumn(9).setMinWidth(110);
+        jTable1.getColumnModel().getColumn(9).setMaxWidth(110);
+
     }
 
 }

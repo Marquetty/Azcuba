@@ -11,6 +11,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import models.personal;
 
 /**
@@ -18,19 +23,25 @@ import models.personal;
  * @author Lenovo
  */
 public class jfListadoPersonal extends javax.swing.JFrame {
-    
+
     Statement stmt = null;
     ResultSet rs = null;
     private final Auth SQL = new Auth();
     private final Connection conn = SQL.conectarMySQL();
     dao_personal per = new dao_personal();
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-M-d");
+    java.util.Date fecha = new Date();
+    long d = fecha.getTime();
+    java.sql.Date fechaa = new java.sql.Date(d);
 
     /**
      * Creates new form jfListadoPersonal
      */
     public jfListadoPersonal() {
         initComponents();
+        jLabel_id.setVisible(false);
         per.llenarTabla(jTable1);
+
     }
 
     /**
@@ -60,6 +71,10 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         jSpinnerSalario = new javax.swing.JSpinner();
         jSpinnerSalarioContrata = new javax.swing.JSpinner();
         jSpinnerTiempoContrata = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        jComboBoxSexo = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jSpinnerEdad = new javax.swing.JSpinner();
         jPanel2 = new javax.swing.JPanel();
         jButton_insertar = new javax.swing.JButton();
         jButton_actualizar = new javax.swing.JButton();
@@ -106,7 +121,6 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("Contrata");
 
-        jTextField_apellidos.setText("Antunz Marquetty");
         jTextField_apellidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel_contrata.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -114,8 +128,12 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         jLabel_contrata.setEnabled(false);
 
         jTextField_ci.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField_ci.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_ciKeyPressed(evt);
+            }
+        });
 
-        jTextField_nombre.setText("Antonio Santiago");
         jTextField_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTextField_nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,7 +141,6 @@ public class jfListadoPersonal extends javax.swing.JFrame {
             }
         });
 
-        jTextFiel_ocupacion.setText("Operador B");
         jTextFiel_ocupacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -136,7 +153,7 @@ public class jfListadoPersonal extends javax.swing.JFrame {
             }
         });
 
-        jLabel_tiempo_contrata.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel_tiempo_contrata.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel_tiempo_contrata.setText("Tiempo contrata");
         jLabel_tiempo_contrata.setEnabled(false);
 
@@ -147,6 +164,13 @@ public class jfListadoPersonal extends javax.swing.JFrame {
 
         jSpinnerTiempoContrata.setEnabled(false);
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setText("Sexo");
+
+        jComboBoxSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Femenino", "Masculino" }));
+
+        jLabel6.setText("Edad");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -155,27 +179,36 @@ public class jfListadoPersonal extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel7))
                 .addGap(44, 44, 44)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jTextField_apellidos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                    .addComponent(jTextField_nombre, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField_ci, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFiel_ocupacion))
-                .addGap(58, 58, 58)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel_salario)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel_contrata)
-                    .addComponent(jLabel_tiempo_contrata))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jSpinnerSalarioContrata, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSpinnerSalario)
-                    .addComponent(jComboBox_contrata, 0, 68, Short.MAX_VALUE)
-                    .addComponent(jSpinnerTiempoContrata))
+                    .addComponent(jTextField_apellidos)
+                    .addComponent(jTextField_nombre)
+                    .addComponent(jTextField_ci)
+                    .addComponent(jTextFiel_ocupacion, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jComboBoxSexo, 0, 95, Short.MAX_VALUE))
+                .addGap(83, 83, 83)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 1, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel_salario)
+                            .addComponent(jLabel_contrata)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addGap(51, 51, 51)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jSpinnerSalarioContrata, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSpinnerSalario)
+                            .addComponent(jComboBox_contrata, 0, 68, Short.MAX_VALUE)
+                            .addComponent(jSpinnerEdad)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel_tiempo_contrata)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSpinnerTiempoContrata, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel_mes, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4))
@@ -183,32 +216,38 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField_ci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox_contrata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_salario)
-                    .addComponent(jSpinnerSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel6)
+                    .addComponent(jSpinnerEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jComboBox_contrata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_ci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextField_apellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_contrata)
-                    .addComponent(jSpinnerSalarioContrata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel_salario)
+                    .addComponent(jSpinnerSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jComboBoxSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerSalarioContrata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_contrata))
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextFiel_ocupacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_tiempo_contrata)
-                    .addComponent(jLabel_mes)
-                    .addComponent(jSpinnerTiempoContrata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSpinnerTiempoContrata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_mes))
+                .addGap(57, 57, 57))
         );
 
         jButton_insertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Add.png"))); // NOI18N
@@ -244,22 +283,26 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton_insertar, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                    .addComponent(jButton_actualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel_id, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton_eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton_insertar, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                            .addComponent(jButton_actualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(jLabel_id, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addComponent(jLabel_id)
+                .addGap(9, 9, 9)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_insertar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_eliminar))
@@ -268,10 +311,6 @@ public class jfListadoPersonal extends javax.swing.JFrame {
                     .addComponent(jButton_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel_id)
-                .addGap(50, 50, 50))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -350,28 +389,30 @@ public class jfListadoPersonal extends javax.swing.JFrame {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextFieldBuscr, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jLabel12)
-                        .addContainerGap(36, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(191, 191, 191)
+                        .addGap(756, 756, 756)
                         .addComponent(jLabel_ci)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(45, 45, 45))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextFieldBuscr, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(41, 41, 41)
+                                .addComponent(jLabel12)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,18 +421,19 @@ public class jfListadoPersonal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel11)
-                        .addGap(11, 11, 11)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextFieldBuscr, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jTextFieldBuscr, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(jLabel_ci)
                         .addGap(1, 1, 1)))
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -431,19 +473,21 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         String apellidos = jTextField_apellidos.getText();
         String ocupacion = jTextFiel_ocupacion.getText();
         String contrata = jComboBox_contrata.getSelectedItem().toString();
+        String sexo = jComboBoxSexo.getSelectedItem().toString();
         int salario = (int) jSpinnerSalario.getValue();
+        int edad = (int) jSpinnerEdad.getValue();
         int salario_contrata = (int) jSpinnerSalarioContrata.getValue();
         int tiempo_contrata = (int) jSpinnerTiempoContrata.getValue();
-        
+
         if (ValidarCi(ci)) {
             if (per.Existe(ci) == 0) {
                 if (jComboBox_contrata.getSelectedItem().equals("SI")) {
-                    personal p = new personal(WIDTH, ci, nombre, apellidos, ocupacion, contrata, 0, salario_contrata, tiempo_contrata);
+                    personal p = new personal(WIDTH, ci, nombre, sexo, edad, apellidos, ocupacion, contrata, 0, salario_contrata, tiempo_contrata);
                     per.insertar(p);
                     per.llenarTabla(jTable1);
-                    
+
                 } else {
-                    personal p = new personal(WIDTH, ci, nombre, apellidos, ocupacion, contrata, salario, 0, 0);
+                    personal p = new personal(WIDTH, ci, nombre, sexo, edad, apellidos, ocupacion, contrata, salario, 0, 0);
                     per.insertar(p);
                     per.llenarTabla(jTable1);
                 }
@@ -453,7 +497,7 @@ public class jfListadoPersonal extends javax.swing.JFrame {
         } else {
             Util.Util.mostrarError(rootPane, "verifique bien el número de carnet");
         }
-        
+
 
     }//GEN-LAST:event_jButton_insertarActionPerformed
 
@@ -462,13 +506,14 @@ public class jfListadoPersonal extends javax.swing.JFrame {
 
         int Fila = jTable1.getSelectedRow();
         String codigo = jTable1.getValueAt(Fila, 1).toString();
-        
+
         try {
             PreparedStatement ps = conn.prepareStatement("SELECT\n"
                     + "personal.id,\n"
                     + "personal.ci,\n"
                     + "personal.ocupacion,\n"
                     + "personal.contrata,\n"
+                    + "personal.sexo,\n"
                     + "personal.salario,\n"
                     + "personal.tiempo_contrata,\n"
                     + "personal.salario_contrata,\n"
@@ -476,7 +521,7 @@ public class jfListadoPersonal extends javax.swing.JFrame {
                     + "personal.apellidos\n"
                     + "FROM\n"
                     + "personal where ci=?");
-            
+
             ps.setString(1, codigo);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -489,8 +534,9 @@ public class jfListadoPersonal extends javax.swing.JFrame {
                 jSpinnerSalario.setValue(rs.getInt("salario"));
                 jSpinnerSalarioContrata.setValue(rs.getInt("salario_contrata"));
                 jSpinnerTiempoContrata.setValue(rs.getInt("tiempo_contrata"));
+                jComboBoxSexo.setSelectedItem(rs.getString("sexo"));
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -506,18 +552,21 @@ public class jfListadoPersonal extends javax.swing.JFrame {
             String apellidos = jTextField_apellidos.getText();
             String ocupacion = jTextFiel_ocupacion.getText();
             String contrata = jComboBox_contrata.getSelectedItem().toString();
+
             int salario = (int) jSpinnerSalario.getValue();
+            int edad = (int) jSpinnerEdad.getValue();
+            String sexo = jComboBoxSexo.getSelectedItem().toString();
             int salario_contrata = (int) jSpinnerSalarioContrata.getValue();
             int tiempo_contrata = (int) jSpinnerTiempoContrata.getValue();
             int id = Integer.parseInt(jLabel_id.getText());
-            
+
             if (ValidarCi(ci)) {
                 if (per.Existe(ci) == 0) {
                     if (jComboBox_contrata.getSelectedItem().equals("SI")) {
-                        personal p = new personal(WIDTH, ci, nombre, apellidos, ocupacion, contrata, 0, salario_contrata, tiempo_contrata);
-                        per.insertar(p);
+                        personal p = new personal(WIDTH, ci, nombre, sexo, edad, apellidos, ocupacion, contrata, 0, salario_contrata, tiempo_contrata);
+                        per.actualizar(p);
                         per.llenarTabla(jTable1);
-                        
+
                     } else {
                         personal p = new personal(id);
                         per.actualizar(p);
@@ -529,7 +578,7 @@ public class jfListadoPersonal extends javax.swing.JFrame {
             } else {
                 Util.Util.mostrarError(rootPane, "verifique bien el número de carnet");
             }
-            
+
         } else {
             Util.Util.mostrarError(rootPane, "Debe Selecciona una Fila");
         }
@@ -547,12 +596,12 @@ public class jfListadoPersonal extends javax.swing.JFrame {
                 personal p = new personal(id);
                 per.eliminar(p);
                 per.llenarTabla(jTable1);
-                
+
             } else {
                 Util.Util.mostrarError(rootPane, "Debe Selecionar una fila");
             }
         }
-        
+
 
     }//GEN-LAST:event_jButton_eliminarActionPerformed
 
@@ -563,7 +612,7 @@ public class jfListadoPersonal extends javax.swing.JFrame {
 
     private void jTextFieldBuscrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscrActionPerformed
         // TODO add your handling code here:
-        
+
 
     }//GEN-LAST:event_jTextFieldBuscrActionPerformed
 
@@ -580,8 +629,13 @@ public class jfListadoPersonal extends javax.swing.JFrame {
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         // TODO add your handling code here:
         limpiar();
-        
+
     }//GEN-LAST:event_formMouseClicked
+
+    private void jTextField_ciKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ciKeyPressed
+
+
+    }//GEN-LAST:event_jTextField_ciKeyPressed
 
     /**
      * @param args the command line arguments
@@ -623,13 +677,16 @@ public class jfListadoPersonal extends javax.swing.JFrame {
     private javax.swing.JButton jButton_cancelar;
     private javax.swing.JButton jButton_eliminar;
     private javax.swing.JButton jButton_insertar;
+    private javax.swing.JComboBox<String> jComboBoxSexo;
     private javax.swing.JComboBox<String> jComboBox_contrata;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel_ci;
@@ -642,6 +699,7 @@ public class jfListadoPersonal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinnerEdad;
     private javax.swing.JSpinner jSpinnerSalario;
     private javax.swing.JSpinner jSpinnerSalarioContrata;
     private javax.swing.JSpinner jSpinnerTiempoContrata;
@@ -661,7 +719,7 @@ public void limpiar() {
         jSpinnerSalarioContrata.setValue(0);
         jSpinnerTiempoContrata.setValue(0);
     }
-    
+
     public static boolean ValidarCi(String ci) {
         int cont = 0;
         for (int i = 0; i < ci.length(); i++) {
@@ -676,7 +734,7 @@ public void limpiar() {
             int mes = Integer.parseInt(mesS);
             int[] mes_mas_dias = {1, 3, 5, 7, 8, 10, 12};
             int[] mes_menos_dias = {4, 6, 9, 11};
-            
+
             if (mes == 2 && dia >= 1 && dia <= 29) {
                 return true;
             }
@@ -690,9 +748,9 @@ public void limpiar() {
                     return true;
                 }
             }
-            
+
         }
         return false;
     }
-    
+
 }

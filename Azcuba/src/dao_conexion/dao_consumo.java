@@ -7,6 +7,7 @@ package dao_conexion;
 
 import auth.Auth;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -75,7 +76,7 @@ public class dao_consumo {
     public void actualizar(consumo c) {
         Statement stmt = null;
         ResultSet rs = null;
-     
+
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
@@ -92,7 +93,6 @@ public class dao_consumo {
             ps.setInt(8, c.getIndice_pretroleo());
             ps.setInt(9, c.getId());
             ps.executeUpdate();
-            
 
         } catch (SQLException ex) {
             // handle any errors
@@ -159,6 +159,23 @@ public class dao_consumo {
 
     }
 
+    public int existe(Date date) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select count(consumo_fecha) from consumo where consumo_fecha=?");
+            ps.setDate(1, date);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 1;
+        } catch (Exception e) {
+            System.out.println(e);
+            return 1;
+        }
+    }
+
     public void llenarTabla(JTable table) {
         Statement stmt = null;
         ResultSet rs = null;
@@ -170,7 +187,7 @@ public class dao_consumo {
             Object[] row = new Object[10];
             modeloTabla = new DefaultTableModel(null, columna) {
                 boolean[] canEdit = new boolean[]{
-                    false, false, false, false, false, false, false, false, false,false};
+                    false, false, false, false, false, false, false, false, false, false};
 
                 @Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -204,7 +221,7 @@ public class dao_consumo {
                 row[6] = rs.getString("consumo.recobrado");
                 row[7] = rs.getString("consumo.indice_dia");
                 row[8] = rs.getString("consumo.indice_petroleo");
-                row[9] = rs.getString("consumo.consumo_fecha");
+            //    row[9] = rs.getString("consumo.consumo_fecha");
 
                 modeloTabla.addRow(row);
 

@@ -34,6 +34,7 @@ public class jfListadoConsumo extends javax.swing.JFrame {
         initComponents();
 
         con.llenarTabla(jTable1);
+        ajustarTablaConsumo();
     }
 
     /**
@@ -108,35 +109,38 @@ public class jfListadoConsumo extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSpinnerConAceite, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                    .addComponent(jSpinnerConLodo)
-                    .addComponent(jSpinnerConPetroleo)
-                    .addComponent(jSpinnerConBiomasa))
-                .addGap(76, 76, 76)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jSpinnerConPetroleo, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                    .addComponent(jSpinnerConLodo, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSpinnerConAceite, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSpinnerConBiomasa))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSpinnerConMarabu, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                    .addComponent(jSpinnerRecobrado)
-                    .addComponent(jSpinnerIndiceDia)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jSpinnerIndiceDia, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                    .addComponent(jSpinnerRecobrado, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSpinnerConMarabu, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSpinnerIndicePetroleo))
-                .addGap(52, 52, 52))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,21 +159,23 @@ public class jfListadoConsumo extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(jSpinnerConLodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel7)
-                            .addComponent(jSpinnerConPetroleo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinnerIndiceDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSpinnerIndicePetroleo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(jSpinnerConBiomasa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jSpinnerConPetroleo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSpinnerIndiceDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jSpinnerConBiomasa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(20, 20, 20))
         );
 
@@ -295,10 +301,9 @@ public class jfListadoConsumo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                                 .addComponent(jLabel10)
                                 .addContainerGap())
                             .addGroup(layout.createSequentialGroup()
@@ -320,7 +325,7 @@ public class jfListadoConsumo extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
@@ -344,12 +349,16 @@ public class jfListadoConsumo extends javax.swing.JFrame {
         java.util.Date fecha = new Date();
         long d = fecha.getTime();
         java.sql.Date fechaa = new java.sql.Date(d);
+        if (con.existe(fechaa) == 0) {
+            consumo cons = new consumo(WIDTH, consumo_aceite, consumo_lodo, consumo_petroleo, consumo_biomasa, consumo_marabu,
+                    recobrado, indice_dia, consumo_petroleo, fechaa);
+            con.insertar(cons);
+            con.llenarTabla(jTable1);
+            limpiar();
+        }else{
+            Util.Util.mostrarError(rootPane, "Solo 1 por dia");
+        }
 
-        consumo cons = new consumo(WIDTH, consumo_aceite, consumo_lodo, consumo_petroleo, consumo_biomasa, consumo_marabu,
-                recobrado, indice_dia, consumo_petroleo, fechaa);
-        con.insertar(cons);
-        con.llenarTabla(jTable1);
-        limpiar();
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -510,38 +519,38 @@ public class jfListadoConsumo extends javax.swing.JFrame {
 
     }
 
-    public final void ajustarTabla() {
+    public final void ajustarTablaConsumo() {
         //columna No
         jTable1.getColumnModel().getColumn(0).setMinWidth(30);
         jTable1.getColumnModel().getColumn(0).setMaxWidth(30);
         //columna Aceite
-        jTable1.getColumnModel().getColumn(1).setMinWidth(80);
-        jTable1.getColumnModel().getColumn(1).setMaxWidth(80);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(110);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(110);
         //columna Lodo
         jTable1.getColumnModel().getColumn(2).setMinWidth(110);
         jTable1.getColumnModel().getColumn(2).setMaxWidth(110);
         //columna Petroleo
-        jTable1.getColumnModel().getColumn(3).setMinWidth(110);
-        jTable1.getColumnModel().getColumn(3).setMaxWidth(110);
+        jTable1.getColumnModel().getColumn(3).setMinWidth(120);
+        jTable1.getColumnModel().getColumn(3).setMaxWidth(120);
         //columna Biomasa
-        jTable1.getColumnModel().getColumn(4).setMinWidth(90);
-        jTable1.getColumnModel().getColumn(4).setMaxWidth(90);
+        jTable1.getColumnModel().getColumn(4).setMinWidth(120);
+        jTable1.getColumnModel().getColumn(4).setMaxWidth(120);
         //columna Marabu
 
-        jTable1.getColumnModel().getColumn(5).setMinWidth(100);
-        jTable1.getColumnModel().getColumn(5).setMaxWidth(100);
+        jTable1.getColumnModel().getColumn(5).setMinWidth(110);
+        jTable1.getColumnModel().getColumn(5).setMaxWidth(110);
         //columna recobrado
-        jTable1.getColumnModel().getColumn(6).setMinWidth(170);
-        jTable1.getColumnModel().getColumn(6).setMaxWidth(170);
+        jTable1.getColumnModel().getColumn(6).setMinWidth(130);
+        jTable1.getColumnModel().getColumn(6).setMaxWidth(130);
         //columna Indice del Dia
-        jTable1.getColumnModel().getColumn(7).setMinWidth(40);
-        jTable1.getColumnModel().getColumn(7).setMaxWidth(40);
+        jTable1.getColumnModel().getColumn(7).setMinWidth(110);
+        jTable1.getColumnModel().getColumn(7).setMaxWidth(110);
         //columna Indice de petroleo
-        jTable1.getColumnModel().getColumn(8).setMinWidth(60);
-        jTable1.getColumnModel().getColumn(8).setMaxWidth(60);
+        jTable1.getColumnModel().getColumn(8).setMinWidth(110);
+        jTable1.getColumnModel().getColumn(8).setMaxWidth(110);
         //columna fecha
-        jTable1.getColumnModel().getColumn(9).setMinWidth(100);
-        jTable1.getColumnModel().getColumn(9).setMaxWidth(100);
+        jTable1.getColumnModel().getColumn(9).setMinWidth(110);
+        jTable1.getColumnModel().getColumn(9).setMaxWidth(110);
 
     }
 

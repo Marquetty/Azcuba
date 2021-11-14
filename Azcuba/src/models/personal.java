@@ -14,6 +14,8 @@ public class personal {
     private int id;
     private String ci;
     private String nombre;
+    private String sexo;
+    private int edad;
     private String apellidos;
     private String ocupacion;
     private String contrata;
@@ -47,6 +49,22 @@ public class personal {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
     }
 
     public String getApellidos() {
@@ -97,10 +115,12 @@ public class personal {
         this.tiempo_contrata = tiempo_contrata;
     }
 
-    public personal(int id, String ci, String nombre, String apellidos, String ocupacion, String contrata, int salario, int salario_contrata, int tiempo_contrata) {
+    public personal(int id, String ci, String nombre, String sexo, int edad, String apellidos, String ocupacion, String contrata, int salario, int salario_contrata, int tiempo_contrata) {
         this.id = id;
         this.ci = ci;
         this.nombre = nombre;
+        this.sexo = sexo;
+        this.edad = edad;
         this.apellidos = apellidos;
         this.ocupacion = ocupacion;
         this.contrata = contrata;

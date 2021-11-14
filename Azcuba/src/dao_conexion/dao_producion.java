@@ -92,7 +92,7 @@ public class dao_producion {
             ps.setInt(6, p.getMiel());
             ps.setInt(7, p.getInsumo_ajeno());
             ps.setInt(8, p.getRefino_a_procesar());
-           
+
             ps.setInt(9, p.getId_producion());
             ps.executeUpdate();
 
@@ -161,6 +161,24 @@ public class dao_producion {
 
     }
 
+    public int existe(Date date) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select count(produccion_fecha) from producion where produccion_fecha=?");
+            ps.setDate(1, date);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 1;
+        } catch (Exception e) {
+            System.out.println(e);
+            return 1;
+        }
+
+    }
+
     public void llenarTabla(JTable table) {
         Statement stmt = null;
         ResultSet rs = null;
@@ -172,7 +190,7 @@ public class dao_producion {
             Object[] row = new Object[10];
             modeloTabla = new DefaultTableModel(null, columna) {
                 boolean[] canEdit = new boolean[]{
-                    false, false, false, false, false,false, false, false, false, false};
+                    false, false, false, false, false, false, false, false, false, false};
 
                 @Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {

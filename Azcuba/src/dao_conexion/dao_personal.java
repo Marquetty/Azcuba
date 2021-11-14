@@ -34,17 +34,19 @@ public class dao_personal {
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
-            String query = "INSERT INTO personal (ci,nombre,apellidos,ocupacion,contrata,salario,tiempo_contrata,salario_contrata)"
-                    + "VALUES(?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO personal (ci,nombre,sexo,edad,apellidos,ocupacion,contrata,salario,tiempo_contrata,salario_contrata)"
+                    + "VALUES(?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, p.getCi());
             ps.setString(2, p.getNombre());
-            ps.setString(3, p.getApellidos());
-            ps.setString(4, p.getOcupacion());
-            ps.setString(5, p.getContrata());
-            ps.setInt(6, p.getSalario());
-            ps.setInt(7, p.getSalario_contrata());
-            ps.setInt(8, p.getTiempo_contrata());
+            ps.setString(3, p.getSexo());
+            ps.setInt(4, p.getEdad());
+            ps.setString(5, p.getApellidos());
+            ps.setString(6, p.getOcupacion());
+            ps.setString(7, p.getContrata());
+            ps.setInt(8, p.getSalario());
+            ps.setInt(9, p.getSalario_contrata());
+            ps.setInt(10, p.getTiempo_contrata());
             ps.executeUpdate();
 
         } catch (SQLException ex) {
@@ -80,17 +82,20 @@ public class dao_personal {
         try {
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
-            String query = "UPDATE  personal  set ci=?,nombre=?,apellidos=?,ocupacion=?,contrata=?,salario=?"
+            String query = "UPDATE  personal  set ci=?,nombre=?,apellidos=?,sexo=?,edad=?,ocupacion=?,contrata=?,salario=?"
                     + ",tiempo_contrata=?,salario_contrata=? where id=?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, p.getCi());
             ps.setString(2, p.getNombre());
-            ps.setString(3, p.getOcupacion());
-            ps.setString(4, p.getContrata());
-            ps.setInt(5, p.getSalario());
-            ps.setInt(6, p.getSalario_contrata());
-            ps.setInt(7, p.getTiempo_contrata());
-            ps.setInt(8, p.getId());
+            ps.setString(3, p.getApellidos());
+            ps.setString(4, p.getSexo());
+            ps.setInt(5, p.getEdad());
+            ps.setString(6, p.getOcupacion());
+            ps.setString(7, p.getContrata());
+            ps.setInt(8, p.getSalario());
+            ps.setInt(9, p.getSalario_contrata());
+            ps.setInt(10, p.getTiempo_contrata());
+            ps.setInt(11, p.getId());
             ps.executeUpdate();
 
         } catch (SQLException ex) {
@@ -178,12 +183,12 @@ public class dao_personal {
     public void llenarTabla(JTable table) {
         Statement stmt = null;
         ResultSet rs = null;
-        String[] columna = {"No", "CI", "Nombre", "Apellidos", "Ocupacion", "Contrata",
+        String[] columna = {"No", "CI", "Nombre", "Apellidos", "sexo", "edad", "Ocupacion", "Contrata",
             "Salario", "Salario de contrata", "Tiempo de Contrata"};
 
         try {
             int contM = 1;
-            Object[] row = new Object[10];
+            Object[] row = new Object[12];
             modeloTabla = new DefaultTableModel(null, columna) {
                 boolean[] canEdit = new boolean[]{
                     false, false, false, false, false, false, false, false, false, false};
@@ -203,6 +208,8 @@ public class dao_personal {
                     + "personal.tiempo_contrata,\n"
                     + "personal.salario_contrata,\n"
                     + "personal.nombre,\n"
+                    + "personal.sexo\n,"
+                    + "personal.edad\n,"
                     + "personal.apellidos\n"
                     + "FROM\n"
                     + "personal"
@@ -212,11 +219,13 @@ public class dao_personal {
                 row[1] = rs.getString("personal.ci");
                 row[2] = rs.getString("personal.nombre");
                 row[3] = rs.getString("personal.apellidos");
-                row[4] = rs.getString("personal.ocupacion");
-                row[5] = rs.getString("personal.contrata");
-                row[6] = rs.getString("personal.salario");
-                row[7] = rs.getString("personal.tiempo_contrata");
-                row[8] = rs.getString("personal.salario_contrata");
+                row[4] = rs.getString("personal.sexo");
+                row[5] = rs.getString("personal.edad");
+                row[6] = rs.getString("personal.ocupacion");
+                row[7] = rs.getString("personal.contrata");
+                row[8] = rs.getString("personal.salario");
+                row[9] = rs.getString("personal.tiempo_contrata");
+                row[10] = rs.getString("personal.salario_contrata");
 
                 modeloTabla.addRow(row);
 
@@ -235,7 +244,7 @@ public class dao_personal {
 
         try {
             int contM = 1;
-            Object[] row = new Object[10];
+            Object[] row = new Object[12];
             modeloTabla = new DefaultTableModel(null, columna) {
                 boolean[] canEdit = new boolean[]{
                     false, false, false, false, false, false, false, false, false, false};
@@ -255,6 +264,8 @@ public class dao_personal {
                     + "personal.tiempo_contrata,\n"
                     + "personal.salario_contrata,\n"
                     + "personal.nombre,\n"
+                    + "personal.sexo\n,"
+                    + "personal.edad\n,"
                     + "personal.apellidos\n"
                     + "FROM\n"
                     + "personal where nombre like '%" + buscar + "%' or ci like '%" + buscar + "%'"
@@ -264,11 +275,13 @@ public class dao_personal {
                 row[1] = rs.getString("personal.ci");
                 row[2] = rs.getString("personal.nombre");
                 row[3] = rs.getString("personal.apellidos");
-                row[4] = rs.getString("personal.ocupacion");
-                row[5] = rs.getString("personal.contrata");
-                row[6] = rs.getString("personal.salario");
-                row[7] = rs.getString("personal.tiempo_contrata");
-                row[8] = rs.getString("personal.salario_contrata");
+                row[4] = rs.getString("personal.sexo");
+                row[5] = rs.getString("personal.edad");
+                row[6] = rs.getString("personal.ocupacion");
+                row[7] = rs.getString("personal.contrata");
+                row[8] = rs.getString("personal.salario");
+                row[9] = rs.getString("personal.tiempo_contrata");
+                row[10] = rs.getString("personal.salario_contrata");
 
                 modeloTabla.addRow(row);
 
