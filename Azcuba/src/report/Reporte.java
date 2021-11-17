@@ -42,12 +42,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author Lenovo
  */
 public class Reporte {
-    
+
     private final Auth SQL = new Auth();
     private final Connection conn = SQL.conectarMySQL();
-    
-    public void reporte() {
-        
+
+    public void reporte(String operador, int edad) {
+
         Workbook book;
         book = new XSSFWorkbook();
         Sheet sheet = book.createSheet("Persona");
@@ -56,7 +56,7 @@ public class Reporte {
             byte[] bytes = IOUtils.toByteArray(is);
             int imgIndex = book.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG);
             is.close();
-            
+
             CreationHelper help = book.getCreationHelper();
             Drawing draw = sheet.createDrawingPatriarch();
             ClientAnchor achor = help.createClientAnchor();
@@ -64,27 +64,27 @@ public class Reporte {
             achor.setRow1(1);
             Picture pict = draw.createPicture(achor, imgIndex);
             pict.resize(1, 3);
-            
+
             CellStyle tituloEstilo = book.createCellStyle();
             tituloEstilo.setAlignment(HorizontalAlignment.CENTER);
             tituloEstilo.setVerticalAlignment(VerticalAlignment.CENTER);
-            
+
             Font fuenteTitulo = book.createFont();
             fuenteTitulo.setFontName("Arial");
             fuenteTitulo.setBold(true);
             fuenteTitulo.setFontHeightInPoints((short) 14);
             tituloEstilo.setFont(fuenteTitulo);
-            
+
             Row filaTitulo = sheet.createRow(1);
             Cell celdatitulo = filaTitulo.createCell(1);
             celdatitulo.setCellStyle(tituloEstilo);
             celdatitulo.setCellValue("Reporte de Personal");
-            
+
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 3));
-            
+
             String[] Cabecera = new String[]{"CI", "Nombre", "Apellidos", "sexo", "edad", "Ocupacion", "Contrata",
                 "Salario", "Salario de contrata", "Tiempo de Contrata"};
-            
+
             CellStyle headerStyle = book.createCellStyle();
             headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
             headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -92,44 +92,45 @@ public class Reporte {
             headerStyle.setBorderLeft(BorderStyle.THIN);
             headerStyle.setBorderBottom(BorderStyle.THIN);
             headerStyle.setBorderLeft(BorderStyle.THIN);
-            
+
             Font font = book.createFont();
             font.setFontName("Arial");
             font.setBold(true);
             font.setColor(IndexedColors.WHITE.getIndex());
             font.setFontHeightInPoints((short) 12);
             headerStyle.setFont(font);
-            Row FilaEncabezados = sheet.createRow(9);
+            Row FilaEncabezados = sheet.createRow(4);
             for (int i = 0; i < Cabecera.length; i++) {
                 Cell celdaEncabezados = FilaEncabezados.createCell(i);
                 celdaEncabezados.setCellStyle(headerStyle);
                 celdaEncabezados.setCellValue(Cabecera[i]);
             }
-            
+
             Statement stmt = null;
             ResultSet rs = null;
-            int numFiladatos = 10;
+            int numFiladatos = 5;
             CellStyle datosEstilo = book.createCellStyle();
             datosEstilo.setBorderBottom(BorderStyle.THIN);
             datosEstilo.setBorderLeft(BorderStyle.THIN);
             datosEstilo.setBorderBottom(BorderStyle.THIN);
             datosEstilo.setBorderLeft(BorderStyle.THIN);
-            
+
             stmt = conn.createStatement();
             // Query que usarás para hacer lo que necesites
             String query = "SELECT\n"
+                    
                     + "personal.ci,\n"
+                    + "personal.nombre,\n"
+                    + "personal.apellidos,\n"
+                    + "personal.sexo,\n"
+                    + "personal.edad,\n"
                     + "personal.ocupacion,\n"
                     + "personal.contrata,\n"
                     + "personal.salario,\n"
                     + "personal.tiempo_contrata,\n"
-                    + "personal.salario_contrata,\n"
-                    + "personal.nombre,\n"
-                    + "personal.apellidos,\n"
-                    + "personal.sexo,\n"
-                    + "personal.edad\n"
+                    + "personal.salario_contrata\n"
                     + "FROM\n"
-                    + "personal";
+                    + "personal where edad  " + operador + "" + edad + "    ";
             PreparedStatement ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             int numcol = rs.getMetaData().getColumnCount();
@@ -157,17 +158,17 @@ public class Reporte {
             sheet.autoSizeColumn(8);
             sheet.autoSizeColumn(9);
             sheet.setZoom(150);
-            
+
             FileOutputStream fileout = null;
             fileout = new FileOutputStream("ReportePersona.xlsx");
-            
+
             book.write(fileout);
-            
+
             fileout.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Reporte.class
                     .getName()).log(Level.SEVERE, null, ex);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Reporte.class
                     .getName()).log(Level.SEVERE, null, ex);

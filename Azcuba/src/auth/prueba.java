@@ -21,6 +21,6 @@ public class prueba {
 
     public static void main(String[] args) {
         report.Reporte rep = new Reporte();
-        rep.reporte();
+        rep.reporte("<",1000);
     }
 }

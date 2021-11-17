@@ -63,10 +63,8 @@ public class dao_reportes {
                 row[1] = rs.getString("personal.ci");
                 row[2] = rs.getString("personal.nombre");
                 row[3] = rs.getString("personal.apellidos");
-
                 row[4] = rs.getString("personal.sexo");
                 row[5] = rs.getString("personal.edad");
-
                 row[6] = rs.getString("personal.ocupacion");
                 row[7] = rs.getString("personal.contrata");
                 row[8] = rs.getString("personal.salario");

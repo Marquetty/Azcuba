@@ -51,10 +51,7 @@ public class jfproduccionxfecha extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "NO.", "Sacos", "Azucar en pizarra", "Norma de producion", "TM Refino", "Miel", "Insumo Ajeno", "Refino a Procesar", "Total de Azucar"

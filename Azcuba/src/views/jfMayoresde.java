@@ -5,7 +5,41 @@
  */
 package views;
 
+import auth.Auth;
 import dao_conexion.dao_reportes;
+import java.awt.Rectangle;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Picture;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import report.Reporte;
 
 /**
  *
@@ -14,6 +48,9 @@ import dao_conexion.dao_reportes;
 public class jfMayoresde extends javax.swing.JFrame {
 
     dao_reportes rep = new dao_reportes();
+
+    private final Auth SQL = new Auth();
+    private final Connection conn = SQL.conectarMySQL();
 
     /**
      * Creates new form jfMayoresde
@@ -39,6 +76,8 @@ public class jfMayoresde extends javax.swing.JFrame {
         jSpinner1 = new javax.swing.JSpinner();
         jLabel_texto = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jButtonReporte = new javax.swing.JButton();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Repote de edad ");
@@ -53,10 +92,7 @@ public class jfMayoresde extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "No.", "CI", "Nombre", "Apellidos", "Sexo", "Edad", "Ocupación", "Contrata", "Salario", "Salario de Contrata", "Tiempo de Contrata(Mes)"
@@ -83,6 +119,14 @@ public class jfMayoresde extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<", ">", "<=", ">=", "=" }));
 
+        jButtonReporte.setText("Reporte");
+        jButtonReporte.setEnabled(false);
+        jButtonReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReporteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -94,9 +138,13 @@ public class jfMayoresde extends javax.swing.JFrame {
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(jButton1)
-                .addGap(141, 141, 141)
+                .addGap(64, 64, 64)
+                .addComponent(jButtonReporte)
+                .addGap(77, 77, 77)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel_texto, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -106,15 +154,19 @@ public class jfMayoresde extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel_texto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonReporte))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel_texto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         pack();
@@ -127,7 +179,27 @@ public class jfMayoresde extends javax.swing.JFrame {
         String operador = jComboBox1.getSelectedItem().toString();
         rep.buscarEdad(jTable1, valor, operador);
         ajustarTablaPersonal();
+      
+        
+        
+        
+        
+        if (jTable1.getRowCount()!= 0) {
+            jButtonReporte.setEnabled(true);
+        }else{
+            jButtonReporte.setEnabled(false);
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReporteActionPerformed
+        // TODO add your handling code here:
+        int valor = (int) jSpinner1.getValue();
+        String operador = jComboBox1.getSelectedItem().toString();
+        jButtonReporte.setEnabled(false);
+        reporte(operador, valor);
+
+    }//GEN-LAST:event_jButtonReporteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,9 +238,11 @@ public class jfMayoresde extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonReporte;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel_texto;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable1;
@@ -225,5 +299,126 @@ public class jfMayoresde extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(10).setMinWidth(160);
         jTable1.getColumnModel().getColumn(10).setMaxWidth(160);
 
+    }
+
+    public void reporte(String operador, int edad) {
+
+        Workbook book;
+        book = new XSSFWorkbook();
+        Sheet sheet = book.createSheet("Personal");
+        try {
+            InputStream is = new FileInputStream("src\\Image\\images.jpg");
+            byte[] bytes = IOUtils.toByteArray(is);
+            int imgIndex = book.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG);
+            is.close();
+
+            CreationHelper help = book.getCreationHelper();
+            Drawing draw = sheet.createDrawingPatriarch();
+            ClientAnchor achor = help.createClientAnchor();
+            achor.setCol1(0);
+            achor.setRow1(1);
+            Picture pict = draw.createPicture(achor, imgIndex);
+            pict.resize(1, 3);
+
+            CellStyle tituloEstilo = book.createCellStyle();
+            tituloEstilo.setAlignment(HorizontalAlignment.CENTER);
+            tituloEstilo.setVerticalAlignment(VerticalAlignment.CENTER);
+
+            Font fuenteTitulo = book.createFont();
+            fuenteTitulo.setFontName("Arial");
+            fuenteTitulo.setBold(true);
+            fuenteTitulo.setFontHeightInPoints((short) 14);
+            tituloEstilo.setFont(fuenteTitulo);
+
+            Row filaTitulo = sheet.createRow(1);
+            Cell celdatitulo = filaTitulo.createCell(1);
+            celdatitulo.setCellStyle(tituloEstilo);
+            celdatitulo.setCellValue("Reporte de personal con edad " + operador + " " + edad);
+
+            sheet.addMergedRegion(new CellRangeAddress(1, 3, 1, 5));
+
+            String[] Cabecera = new String[]{"No.", "CI", "Nombre", "Apellidos", "sexo", "edad", "Ocupacion", "Contrata",
+                "Salario", "Salario de contrata", "Tiempo de Contrata"};
+
+            CellStyle headerStyle = book.createCellStyle();
+            headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            headerStyle.setBorderBottom(BorderStyle.THIN);
+            headerStyle.setBorderLeft(BorderStyle.THIN);
+            headerStyle.setBorderBottom(BorderStyle.THIN);
+            headerStyle.setBorderLeft(BorderStyle.THIN);
+
+            Font font = book.createFont();
+            font.setFontName("Arial");
+            font.setBold(true);
+            font.setColor(IndexedColors.WHITE.getIndex());
+            font.setFontHeightInPoints((short) 12);
+            headerStyle.setFont(font);
+            Row FilaEncabezados = sheet.createRow(4);
+            for (int i = 0; i < Cabecera.length; i++) {
+                Cell celdaEncabezados = FilaEncabezados.createCell(i);
+                celdaEncabezados.setCellStyle(headerStyle);
+                celdaEncabezados.setCellValue(Cabecera[i]);
+            }
+            jProgressBar1.setMaximum(jTable1.getRowCount());
+            XSSFRow filas;
+            Rectangle rect;
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                rect = jTable1.getCellRect(i, 0, true);
+                try {
+
+                    jTable1.scrollRectToVisible(rect);
+                } catch (java.lang.ClassCastException e) {
+                    jTable1.setRowSelectionInterval(i, i);
+                    jProgressBar1.setValue((i + 1));
+                }
+                filas = (XSSFRow) sheet.createRow((i + 5));
+                filas.createCell(0).setCellValue(jTable1.getValueAt(i, 0).toString());
+                filas.createCell(1).setCellValue(jTable1.getValueAt(i, 1).toString());
+                filas.createCell(2).setCellValue(jTable1.getValueAt(i, 2).toString());
+                filas.createCell(3).setCellValue(jTable1.getValueAt(i, 3).toString());
+                filas.createCell(4).setCellValue(jTable1.getValueAt(i, 4).toString());
+                filas.createCell(5).setCellValue(jTable1.getValueAt(i, 5).toString());
+                filas.createCell(6).setCellValue(jTable1.getValueAt(i, 6).toString());
+                filas.createCell(7).setCellValue(jTable1.getValueAt(i, 7).toString());
+                filas.createCell(8).setCellValue(jTable1.getValueAt(i, 8).toString());
+                filas.createCell(9).setCellValue(jTable1.getValueAt(i, 9).toString());
+                filas.createCell(10).setCellValue(jTable1.getValueAt(i, 10).toString());
+
+            }
+            jProgressBar1.setValue(0);
+
+            CellStyle datosEstilo = book.createCellStyle();
+            datosEstilo.setBorderBottom(BorderStyle.THIN);
+            datosEstilo.setBorderLeft(BorderStyle.THIN);
+            datosEstilo.setBorderBottom(BorderStyle.THIN);
+            datosEstilo.setBorderLeft(BorderStyle.THIN);
+
+            sheet.autoSizeColumn(0);
+            sheet.autoSizeColumn(1);
+            sheet.autoSizeColumn(2);
+            sheet.autoSizeColumn(3);
+            sheet.autoSizeColumn(4);
+            sheet.autoSizeColumn(5);
+            sheet.autoSizeColumn(6);
+            sheet.autoSizeColumn(7);
+            sheet.autoSizeColumn(8);
+            sheet.autoSizeColumn(9);
+            sheet.setZoom(150);
+
+            FileOutputStream fileout = null;
+            fileout = new FileOutputStream("Reporte de personal por edad.xlsx");
+
+            book.write(fileout);
+
+            fileout.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Reporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
+        } catch (IOException ex) {
+            Logger.getLogger(Reporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
